@@ -20,7 +20,8 @@ examples, `examples.jsonl`, the questions with worked answers that a prompt with
 `info.json`, the revision and the number of questions of each stratum. A sample is drawn from the strata chosen, by
 proportional or equal allocation, with a seed, so that it can be drawn again. A run is kept in `RUNS`: `<id>.json`,
 the benchmark and its revision, the settings, the sample and the figures of each model, written as the model answers,
-and `<id>.jsonl`, each answer as it comes, with its grade and its timings.
+and `<id>.jsonl`, each answer as it comes, with its grade and its timings. A run ended, which `run_models!` marks,
+Pollis moves into its Comparisons.duckdb.
 """
 module PollisBenchmarks
 

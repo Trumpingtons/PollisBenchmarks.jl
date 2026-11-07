@@ -50,7 +50,7 @@ MMLU-Pro and GSM8K run: `download(id)` makes their questions ready in `~/.pollis
 
 ## Runs
 
-A run is kept in `~/.pollis/benchmarks/runs`: `<id>.json`, the benchmark and its revision, the settings, the sample and each model's figures; and `<id>.jsonl`, each answer with its grade and timings.
+A run is written in `~/.pollis/benchmarks/runs` while it goes: `<id>.json`, the benchmark and its revision, the settings, the sample and each model's figures; and `<id>.jsonl`, each answer with its grade and timings. `run_models!` marks it ended. Pollis then moves it into `~/.pollis/ask/Comparisons.duckdb`, its tables `benchmarkRuns`, `benchmarkModels` and `benchmarkAnswers`: at once for a run of Model Benchmarks, the next time the page opens for a run of a notebook. `runs`, `load_run` and `figures` read the runs still in their files.
 
 ## Licence
 

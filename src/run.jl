@@ -179,7 +179,7 @@ end
 
 Runs each model of `models` (files or `hf:` values) on the run `run`, one after the other and each alone in
 memory: its llama-server started for it (`Pollis.llama_server`, in the Julia REPL or a notebook of Pollis) and
-stopped once it has answered.
+stopped once it has answered. The run is then marked ended (`ended`), so that Pollis moves it into its Comparisons.duckdb.
 """
 function run_models!(id, models; progress = (model, done, total, tokens) -> nothing)
 	pollis = isdefined(Main, :Pollis) ? Main.Pollis : error("run_models! runs in the Julia REPL or a notebook of Pollis.")
@@ -193,7 +193,15 @@ function run_models!(id, models; progress = (model, done, total, tokens) -> noth
 			pollis.stop_llama_server(model; thinking)
 		end
 	end
+	end_run!(id)
 	figures(id)
+end
+
+"""Marks the run `id` ended, when it was."""
+function end_run!(id)
+	run = Dict{Symbol, Any}(pairs(load_run(id)))
+	run[:ended] = round(Int, time() * 1000)
+	write_json(run_file(id), run)
 end
 
 """The runs kept, the latest first: their ids."""
