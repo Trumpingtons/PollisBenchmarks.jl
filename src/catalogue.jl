@@ -1,27 +1,30 @@
 """
 A benchmark: where its questions and examples come from, as Parquet files, how a question is written for the model,
-and how its answer is read and graded. `strata` names the column the questions are grouped by, or nothing.
+and how its answer is read and graded. `strata` names the column the questions are grouped by, or nothing. A benchmark
+whose questions come only with the package, in its artifact, has no source files and no `read_row`.
 """
 struct Benchmark
 	id::String
 	name::String
 	"""The revision of the dataset on Hugging Face its files are downloaded from, so that a later download gives the same questions."""
 	revision::String
-	questions::String
-	examples::String
+	questions::Union{Nothing, String}
+	examples::Union{Nothing, String}
 	strata::Union{Nothing, String}
 	"""The question of a row of the Parquet file, as kept: (; id, stratum, question, choices, answer, worked)."""
-	read_row::Function
+	read_row::Union{Nothing, Function}
 	"""The prompt for a question: the instruction, the examples, then the question."""
 	prompt::Function
 	"""The answer the model gave, read from its text, or nothing when none can be read."""
 	extract::Function
-	"""Whether the answer read is the right one."""
+	"""Whether the answer read is right for the question: `grade(extracted, question)`."""
 	grade::Function
 	"""The examples a prompt shows: those of the question's stratum, the first `shots`."""
 	examples_of::Function
 	"""The probability that an answer picked at random among the question's options is right, or nothing for a benchmark without options."""
 	chance::Union{Nothing, Function}
+	"""The question as asked, from the question as its source has it, when the two differ: done once, when it is made ready."""
+	arrange::Function
 end
 
 """The benchmarks, by their id, each added by the file that defines it (`benchmarks/`)."""

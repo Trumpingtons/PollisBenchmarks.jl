@@ -143,7 +143,7 @@ function run_model!(id, model, url; label = model, size = "", free_before = avai
 				entry[:error] = answer.error
 			else
 				extracted = benchmark.extract(answer.text)
-				correct = extracted !== nothing && benchmark.grade(extracted, question.answer)
+				correct = extracted !== nothing && benchmark.grade(extracted, question)
 				tokens .+= (something(answer.promptTokens, 0), something(answer.writtenTokens, 0))
 				record = (; model = entry[:value], id = question.id, stratum = question.stratum, extracted, correct, answer.text, answer.finish,
 					answer.seconds, answer.promptTokens, answer.writtenTokens, answer.promptMs, answer.readingSpeed, answer.writingSpeed, answer.tokenMs)

@@ -59,13 +59,13 @@ const PB = PollisBenchmarks
 	end
 
 	@testset "Catalogue" begin
-		@test sort(collect(keys(PB.BENCHMARKS))) == ["gsm8k", "mmlu_pro"]
+		@test sort(collect(keys(PB.BENCHMARKS))) == ["bbh", "finqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "truthfulqa"]
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
 		# Every benchmark that runs has its entry, of the same revision
 		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)
-		# The eleven benchmarks built in, with their layout, thirteen to download, and as many revisions as sources
+		# The ten benchmarks built in, with their layout, thirteen to download, and as many revisions as sources
 		@test [(entry["id"], entry["layout"]) for entry in PB.catalogue() if entry["availability"] == "Built In"] == [
-			("bbh", "questions"), ("bfcl", "questions"), ("finqa", "questions"), ("gsm8k", "questions"), ("ifeval", "questions"),
+			("bbh", "questions"), ("finqa", "questions"), ("gsm8k", "questions"), ("ifeval", "questions"),
 			("mmlu_pro", "questions"), ("multipl_e_julia", "questions"), ("pubmedqa", "questions"), ("scidocs", "retrieval"),
 			("scifact", "retrieval"), ("truthfulqa", "questions")]
 		# Every id is a name SQL takes without quotes, the name of the table of a benchmark built in
@@ -80,10 +80,10 @@ const PB = PollisBenchmarks
 		@test folder !== nothing
 		rows(file) = isfile(joinpath(folder, file)) ? length(PB.parquet_rows(joinpath(folder, file))) : 0
 		# As many questions, examples and documents as their papers and sources give: the test splits of FinQA (1,147)
-		# and of PubMedQA (500), the 300 claims of SciFact with relevance labels, the 2,501 of the ten categories of BFCL
+		# and of PubMedQA (500), the 300 claims of SciFact with relevance labels
 		@test [(id, rows("$(id).parquet"), rows("$(id)-examples.parquet"), rows("$(id)-documents.parquet")) for id in
-			["bbh", "bfcl", "finqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "scidocs", "scifact", "truthfulqa"]] == [
-			("bbh", 6511, 81, 0), ("bfcl", 2501, 0, 0), ("finqa", 1147, 883, 0), ("gsm8k", 1319, 7473, 0), ("ifeval", 541, 0, 0),
+			["bbh", "finqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "scidocs", "scifact", "truthfulqa"]] == [
+			("bbh", 6511, 81, 0), ("finqa", 1147, 883, 0), ("gsm8k", 1319, 7473, 0), ("ifeval", 541, 0, 0),
 			("mmlu_pro", 12032, 70, 0), ("multipl_e_julia", 159, 0, 0), ("pubmedqa", 500, 500, 0), ("scidocs", 1000, 0, 25657),
 			("scifact", 300, 0, 5183), ("truthfulqa", 817, 0, 0)]
 		@test isfile(joinpath(folder, "LICENCES.md"))

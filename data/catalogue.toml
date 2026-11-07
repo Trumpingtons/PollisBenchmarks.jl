@@ -61,6 +61,7 @@ licence_url = "https://github.com/sylinrl/TruthfulQA/blob/main/LICENSE"
 source = ["https://huggingface.co/datasets/truthfulqa/truthful_qa"]
 revision = ["741b8276f2d1982aa3d5b832d3ee81ed3b896490"]
 grading = "The letter of the option chosen (MC1), one of them true"
+page = "Model Benchmarks"
 reference = "LHE2022a"
 
 [benchmarks.columns]
@@ -80,6 +81,7 @@ licence_url = "https://github.com/suzgunmirac/BIG-Bench-Hard/blob/main/LICENSE"
 source = ["https://github.com/suzgunmirac/BIG-Bench-Hard"]
 revision = ["9ee07bd481feebf959a6b59d61ea57bdcf30964d"]
 grading = "The answer as written, matched exactly"
+page = "Model Benchmarks"
 reference = "SSSGT...2023a"
 
 [benchmarks.columns]
@@ -102,6 +104,7 @@ licence_url = "https://huggingface.co/datasets/google/IFEval"
 source = ["https://huggingface.co/datasets/google/IFEval"]
 revision = ["966cd89545d6b6acfd7638bc708b98261ca58e84"]
 grading = "Each instruction of the prompt checked by its rule"
+page = "Model Benchmarks"
 reference = "ZLMBB...2023a"
 
 [benchmarks.columns]
@@ -124,6 +127,7 @@ licence_url = "https://github.com/nuprl/MultiPL-E/blob/main/LICENSE"
 source = ["https://huggingface.co/datasets/nuprl/MultiPL-E"]
 revision = ["28441b6024e71d4a1c1c0f6bf171c935cd5a43f2"]
 grading = "The unit tests run on the function completed (pass@1)"
+page = "Model Benchmarks"
 reference = "CGNNP...2023a"
 
 [benchmarks.columns]
@@ -131,28 +135,6 @@ question = "The prompt: the docstring and the signature of the Julia function to
 answer = "Empty: an answer is graded by its unit tests"
 tests = "The unit tests of the function, in Julia"
 stop_tokens = "The text that ends the function, where a completion is cut"
-
-[[benchmarks]]
-id = "bfcl"
-benchmark = "Berkeley Function Calling Leaderboard"
-component = "Tool Use"
-domain = "Requests to call functions given their documentation, in ten categories, from one function to several in parallel"
-layout = "questions"
-availability = "Built In"
-questions = 2501
-released = "2024-02"
-licence = "Apache-2.0"
-licence_url = "https://github.com/ShishirPatil/gorilla/blob/main/LICENSE"
-source = ["https://huggingface.co/datasets/gorilla-llm/Berkeley-Function-Calling-Leaderboard"]
-revision = ["61fc0608cfd831fcfbbaa676ebdfef0ed963eeda"]
-grading = "The function calls matched against the possible answers, by their syntax tree"
-reference = "PMYJS...2025a"
-
-[benchmarks.columns]
-stratum = "The category of the question, such as simple, parallel or live_multiple"
-question = "The messages of the request, as JSON"
-answer = "The possible answers: each function to call, with the values each argument may take, as JSON"
-functions = "The documentation of the functions the model may call, as JSON"
 
 [[benchmarks]]
 id = "scifact"
@@ -208,6 +190,7 @@ licence_url = "https://github.com/pubmedqa/pubmedqa/blob/master/LICENSE"
 source = ["https://huggingface.co/datasets/qiaojin/PubMedQA", "https://github.com/pubmedqa/pubmedqa"]
 revision = ["9001f2853fb87cab8d220904e0de81ac6973b318", "1cbae8e92f72f20c8d3747cbb3bf5bc53554d997"]
 grading = "Yes, no or maybe"
+page = "Model Benchmarks"
 reference = "JDLCL2019a"
 
 [benchmarks.columns]
@@ -232,6 +215,7 @@ licence_url = "https://github.com/czyssrs/FinQA/blob/main/LICENSE"
 source = ["https://github.com/czyssrs/FinQA"]
 revision = ["0f16e2867befa6840783e58be38c9efb9229d742"]
 grading = "The number, or the yes or no, that the answer gives"
+page = "Model Benchmarks"
 reference = "CCSSB...2021a"
 
 [benchmarks.columns]

@@ -51,7 +51,8 @@ register!(Benchmark(
 	gsm8k_row,
 	gsm8k_prompt,
 	gsm8k_extract,
-	gsm8k_grade,
+	(extracted, question) -> gsm8k_grade(extracted, question.answer),
 	(examples, question, shots) -> first(examples, shots),
 	nothing,
+	identity,
 ))

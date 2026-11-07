@@ -2,7 +2,8 @@
 # evaluation scripts (TIGER-AI-Lab/MMLU-Pro, evaluate_from_api.py): "the answer is (X)", else "Answer: X", else the
 # last letter that stands alone.
 
-const LETTERS = collect("ABCDEFGHIJ")
+"""The letters of the options, as many as a question has: ten for MMLU-Pro, up to thirteen for TruthfulQA."""
+const LETTERS = collect('A':'Z')
 
 function mmlu_pro_row(row)
 	options = [String(option) for option in row.options if option !== nothing && !isempty(strip(String(option)))]
@@ -29,14 +30,18 @@ function mmlu_pro_prompt(question, examples, settings)
 	head * shown * chop(mmlu_pro_question(question), tail = length(" Let's think step by step."))
 end
 
-function mmlu_pro_extract(text)
-	found = match(r"answer is \(?([A-J])\)?", text)
+"""The letter of the option chosen, from A to `last`, read as MMLU-Pro's scripts read it, or nothing."""
+function choice_extract(text, last)
+	letters = "A-$(last)"
+	found = match(Regex("answer is \\(?([$(letters)])\\)?"), text)
 	found === nothing || return String(found.captures[1])
-	found = match(r"(?s).*[aA]nswer:\s*\(?([A-J])\)?", text)
+	found = match(Regex("(?s).*[aA]nswer:\\s*\\(?([$(letters)])\\)?"), text)
 	found === nothing || return String(found.captures[1])
-	found = match(r"(?s)\b([A-J])\b(?!.*\b[A-J]\b)", text)
+	found = match(Regex("(?s)\\b([$(letters)])\\b(?!.*\\b[$(letters)]\\b)"), text)
 	found === nothing ? nothing : String(found.captures[1])
 end
+
+mmlu_pro_extract(text) = choice_extract(text, 'J')
 
 """The revision of TIGER-Lab/MMLU-Pro on Hugging Face, fixed in the catalogue so that the questions do not change when the dataset is updated."""
 const MMLU_PRO_REVISION = revision_of("mmlu_pro")
@@ -49,7 +54,8 @@ register!(Benchmark(
 	(row, index) -> mmlu_pro_row(row),
 	mmlu_pro_prompt,
 	mmlu_pro_extract,
-	(extracted, answer) -> extracted == answer,
+	(extracted, question) -> extracted == question.answer,
 	(examples, question, shots) -> first(filter(example -> example.stratum == question.stratum, examples), shots),
 	question -> 1 / length(question.choices),
+	identity,
 ))

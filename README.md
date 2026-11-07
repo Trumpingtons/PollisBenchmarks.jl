@@ -25,7 +25,6 @@ PB.figures(run)
 | `bbh` | BIG-Bench Hard | Closed Book Answering | 6,511 | MIT | Built In |
 | `ifeval` | IFEval | Instruction Following | 541 | Apache-2.0 | Built In |
 | `multipl_e_julia` | MultiPL-E, Julia | Code | 159 | BSD-3-Clause, with a Machine Learning Restriction | Built In |
-| `bfcl` | Berkeley Function Calling Leaderboard | Tool Use | 2,501 | Apache-2.0 | Built In |
 | `scifact` | SciFact | Embedding, Reranking | 300 queries, 5,183 documents | CC BY 4.0, ODC-By 1.0 | Built In |
 | `scidocs` | SCIDOCS | Embedding, Reranking | 1,000 queries, 25,657 documents | CC BY 4.0 | Built In |
 | `pubmedqa` | PubMedQA | Open Book Answering | 500 | MIT | Built In |
@@ -46,7 +45,7 @@ PB.figures(run)
 
 `data/catalogue.toml` describes each benchmark: what it measures, its sources and the revision of each its questions come from, its licence, how an answer is graded, the columns of its own, and whether it is built in. The questions of a benchmark Built In come with the package, in its artifact `benchmarks`: a Parquet file of questions for each, one of examples when it has them and one of documents for a retrieval benchmark, with `LICENCES.md`, made from their sources at those revisions. Pollis copies them into its built-in database PollisBenchmarks, a table for each benchmark. The questions of a benchmark to Download are not in the artifact, by their licence or their size: they are fetched from their source, at its revision, by a page that runs them. The questions of each benchmark keep the licence of their source.
 
-MMLU-Pro and GSM8K run: `download(id)` makes their questions ready in `~/.pollis/benchmarks/data/<id>`, from the artifact, or from their source when the artifact is not on the computer.
+MMLU-Pro, GSM8K, TruthfulQA, BIG-Bench Hard, PubMedQA, FinQA, IFEval and MultiPL-E Julia run: `download(id)` makes their questions ready in `~/.pollis/benchmarks/data/<id>`, from the artifact, or, for MMLU-Pro and GSM8K, from their source when the artifact is not on the computer. TruthfulQA's true option, first in its source, is moved to a place fixed by the question's id, so that the right letter is not always A. An answer of IFEval is right when it follows every instruction of its prompt, each checked by the rule of the checker of its authors, with the differences its file `src/benchmarks/ifeval.jl` names. An answer of MultiPL-E Julia is run with its unit tests in a Julia process of its own, in an empty folder, for 15 seconds at most: the process is not a sandbox, and the code a model wrote can reach the files and the network of the computer. SciFact and SCIDOCS are graded by the documents found, by Pollis's pages that evaluate embedding models and rerankers.
 
 ## Runs
 

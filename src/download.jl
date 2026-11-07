@@ -45,15 +45,15 @@ function source_questions(id, folder; progress = (done, total) -> nothing)
 	progress(1, 3)
 	examples_file = fetch_file(benchmark.examples, joinpath(folder, "examples.parquet"))
 	progress(2, 3)
-	questions = [benchmark.read_row(row, index) for (index, row) in enumerate(parquet_rows(questions_file))]
-	examples = [benchmark.read_row(row, index) for (index, row) in enumerate(parquet_rows(examples_file))]
+	questions = [benchmark.arrange(benchmark.read_row(row, index)) for (index, row) in enumerate(parquet_rows(questions_file))]
+	examples = [benchmark.arrange(benchmark.read_row(row, index)) for (index, row) in enumerate(parquet_rows(examples_file))]
 	(; questions, examples)
 end
 
 """
 	download(benchmark; progress = (done, total) -> nothing)
 
-Makes the questions and examples of `benchmark` ("mmlu_pro", "gsm8k") ready in `DATA/<benchmark>`, at the revision
+Makes the questions and examples of `benchmark` (an id of `BENCHMARKS`, such as "mmlu_pro") ready in `DATA/<benchmark>`, at the revision
 of the dataset that the catalogue fixes, and answers its `info`: the revision and the number of questions of each
 stratum. The questions of a benchmark built in are read from the artifact of the package; those of any other, or
 when the artifact is not on this computer, are downloaded from their source, once, and again when its files are of
@@ -65,8 +65,12 @@ function download(id; progress = (done, total) -> nothing)
 	artifact = built_in(benchmark.id) ? artifact_folder() : nothing
 	if artifact !== nothing
 		progress(0, 3)
-		questions = [question_of(row) for row in parquet_rows(joinpath(artifact, "$(benchmark.id).parquet"))]
-		examples = [question_of(row) for row in parquet_rows(joinpath(artifact, "$(benchmark.id)-examples.parquet"))]
+		questions = [benchmark.arrange(question_of(row)) for row in parquet_rows(joinpath(artifact, "$(benchmark.id).parquet"))]
+		# A benchmark without examples has no file of them
+		examples_file = joinpath(artifact, "$(benchmark.id)-examples.parquet")
+		examples = isfile(examples_file) ? [benchmark.arrange(question_of(row)) for row in parquet_rows(examples_file)] : []
+	elseif benchmark.questions === nothing
+		error("The questions of $(benchmark.name) come with PollisBenchmarks.jl, in its artifact benchmarks, which is not on this computer: install the package again.")
 	else
 		if downloaded_revision(benchmark.id) != benchmark.revision
 			rm(joinpath(folder, "questions.parquet"); force = true)
@@ -94,8 +98,20 @@ function read_questions(id, file = "questions.jsonl")
 	[question_of(JSON3.read(line)) for line in eachline(path) if !isempty(line)]
 end
 
-question_of(object) = (; id = String(object.id), stratum = String(object.stratum), question = String(object.question),
-	choices = String.(object.choices), answer = String(object.answer), worked = String(object.worked))
+"""The columns every benchmark has."""
+const COMMON_COLUMNS = (:id, :stratum, :question, :choices, :answer, :worked)
+
+"""
+A question as kept: its id, stratum, question, choices, right answer and worked answer; then the columns of its
+benchmark's own, as they are, such as the abstract of a question of PubMedQA (`context`, `sections`), the instructions
+of one of IFEval or the unit tests of one of MultiPL-E Julia.
+"""
+function question_of(object)
+	common = (; id = String(object.id), stratum = String(object.stratum), question = String(object.question),
+		choices = String.(object.choices), answer = String(object.answer), worked = String(object.worked))
+	own = (; (key => value for (key, value) in pairs(object) if !(Symbol(key) in COMMON_COLUMNS))...)
+	merge(common, own)
+end
 
 function write_lines(path, values)
 	mkpath(dirname(path))
