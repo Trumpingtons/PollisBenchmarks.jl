@@ -1,6 +1,6 @@
 # PollisBenchmarks.jl
 
-The published benchmarks that [Pollis](https://pollis.org) runs on the chat models of a computer: each benchmark downloaded once at a fixed revision of its dataset, a stratified sample of its questions drawn with a seed, each model's answers graded as they come, and the score of each model with its 95% interval.
+The published benchmarks of [Pollis](https://pollis.org), with their questions at a fixed revision of their sources, and the functions that run them on the chat models of a computer: a stratified sample of the questions drawn with a seed, each model's answers graded as they come, and the score of each model with its 95% interval.
 
 Pollis's Model Benchmarks page (Compose > Local Models > Model Benchmarks...) runs these functions, and a notebook can call the same ones:
 
@@ -17,12 +17,23 @@ PB.figures(run)
 
 ## Benchmarks
 
-| Id | Benchmark | Questions | Strata | Grading | Licence | |
-|---|---|---|---|---|---|---|
-| `mmlu-pro` | MMLU-Pro (Wang et al., 2024) | 12,032 | 14 subjects | The letter of the option, read as its evaluation scripts read it | MIT | Built in |
-| `gsm8k` | GSM8K (Cobbe et al., 2021) | 1,319 | None | The final number | MIT | Built in |
+| Id | Benchmark | What it measures | Questions | Licence |
+|---|---|---|---|---|
+| `mmlu-pro` | MMLU-Pro | Closed Book Answering | 12,032 | MIT |
+| `gsm8k` | GSM8K | Closed Book Answering | 1,319 | MIT |
+| `truthfulqa` | TruthfulQA | Closed Book Answering | 817 | Apache-2.0 |
+| `bbh` | BIG-Bench Hard | Closed Book Answering | 6,511 | MIT |
+| `ifeval` | IFEval | Instruction Following | 541 | Apache-2.0 |
+| `multipl-e-julia` | MultiPL-E, Julia | Code | 159 | BSD-3-Clause, with a Machine Learning Restriction |
+| `bfcl` | Berkeley Function Calling Leaderboard | Tool Use | 2,501 | Apache-2.0 |
+| `scifact` | SciFact | Embedding, Reranking | 300 queries, 5,183 documents | CC BY 4.0, ODC-By 1.0 |
+| `scidocs` | SCIDOCS | Embedding, Reranking | 1,000 queries, 25,657 documents | CC BY 4.0 |
+| `pubmedqa` | PubMedQA | Open Book Answering | 500 | MIT |
+| `finqa` | FinQA | Open Book Answering | 1,147 | MIT |
 
-`data/catalogue.toml` describes each benchmark: what it measures, its source and the revision its questions come from, its licence, how an answer is graded, and whether it is built in. The questions of a benchmark built in come with the package, in its artifact `benchmarks` (one Parquet file of questions and one of examples each, with `LICENCES.md`), made from its source at that revision; Pollis copies them into its built-in database PollisBenchmarks. Any other benchmark is downloaded from its source the first time it is run, at the same fixed revision. `download(id)` makes the questions ready in `~/.pollis/benchmarks/data/<id>` either way. Each benchmark's questions keep the licence of their source.
+`data/catalogue.toml` describes each benchmark: what it measures, its sources and the revision of each its questions come from, its licence, how an answer is graded, and the columns of its own. The questions come with the package, in its artifact `benchmarks`: a Parquet file of questions for each benchmark, one of examples when it has them and one of documents for a retrieval benchmark, with `LICENCES.md`, made from their sources at those revisions. Pollis copies them into its built-in database PollisBenchmarks, a table for each benchmark. The questions of each benchmark keep the licence of their source.
+
+MMLU-Pro and GSM8K run: `download(id)` makes their questions ready in `~/.pollis/benchmarks/data/<id>`, from the artifact, or from their source when the artifact is not on the computer.
 
 ## Runs
 

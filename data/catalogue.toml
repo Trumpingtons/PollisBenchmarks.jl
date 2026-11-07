@@ -1,7 +1,12 @@
 # The benchmarks of PollisBenchmarks.jl: one entry each, which Pollis copies into the table `catalogue` of its
-# built-in database PollisBenchmarks. A benchmark Built In has its questions in the artifact `benchmarks`, as
-# `<id>.parquet` and `<id>-examples.parquet`, copied into the tables `<table>` and `<table>_examples`; one to
-# Download is fetched from its source at `revision` the first time it is run.
+# built-in database PollisBenchmarks. The questions of each are in the artifact `benchmarks`: `<id>.parquet`, the
+# questions of the benchmark, with `<id>-examples.parquet`, the solved examples a prompt can show, and
+# `<id>-documents.parquet`, the documents a retrieval benchmark searches, when it has them; Pollis copies them into
+# one table, `table`, told apart by its column `split`.
+#
+# `source` and `revision` name each source the questions come from and its revision, in the same order. `layout` is
+# "questions" (id, stratum, question, choices, answer, worked, and the columns of `columns`) or "retrieval" (id,
+# title, text, relevant). `columns` describes the columns of a benchmark of its own, or what a column means for it.
 
 [[benchmarks]]
 id = "mmlu-pro"
@@ -9,13 +14,13 @@ table = "mmlu_pro"
 benchmark = "MMLU-Pro"
 component = "Closed Book Answering"
 domain = "14 subjects, from law and economics to physics"
+layout = "questions"
 questions = 12032
 released = "2024-06"
 licence = "MIT"
 licence_url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"
-availability = "Built In"
-source = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"
-revision = "b189ec765aa7ed75c8acfea42df31fdae71f97be"
+source = ["https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"]
+revision = ["b189ec765aa7ed75c8acfea42df31fdae71f97be"]
 grading = "The letter of the option chosen, among up to ten"
 page = "Model Benchmarks"
 reference = "WMZNC...2024a"
@@ -26,13 +31,199 @@ table = "gsm8k"
 benchmark = "GSM8K"
 component = "Closed Book Answering"
 domain = "Grade-school mathematics word problems"
+layout = "questions"
 questions = 1319
 released = "2021-10"
 licence = "MIT"
 licence_url = "https://huggingface.co/datasets/openai/gsm8k"
-availability = "Built In"
-source = "https://huggingface.co/datasets/openai/gsm8k"
-revision = "740312add88f781978c0658806c59bc2815b9866"
+source = ["https://huggingface.co/datasets/openai/gsm8k"]
+revision = ["740312add88f781978c0658806c59bc2815b9866"]
 grading = "The final number"
 page = "Model Benchmarks"
 reference = "CKBCJ...2021a"
+
+[[benchmarks]]
+id = "truthfulqa"
+table = "truthfulqa"
+benchmark = "TruthfulQA"
+component = "Closed Book Answering"
+domain = "Questions that some people answer falsely, from misconceptions, in 38 categories such as health, law and finance"
+layout = "questions"
+questions = 817
+released = "2021-09"
+licence = "Apache-2.0"
+licence_url = "https://github.com/sylinrl/TruthfulQA/blob/main/LICENSE"
+source = ["https://huggingface.co/datasets/truthfulqa/truthful_qa"]
+revision = ["741b8276f2d1982aa3d5b832d3ee81ed3b896490"]
+grading = "The letter of the option chosen (MC1), one of them true"
+
+[benchmarks.columns]
+choices = "The options of the question (MC1), in the order of the source, where the true one comes first"
+
+[[benchmarks]]
+id = "bbh"
+table = "bbh"
+benchmark = "BIG-Bench Hard"
+component = "Closed Book Answering"
+domain = "27 reasoning tasks, such as logical deduction, date understanding and multistep arithmetic"
+layout = "questions"
+questions = 6511
+released = "2022-10"
+licence = "MIT"
+licence_url = "https://github.com/suzgunmirac/BIG-Bench-Hard/blob/main/LICENSE"
+source = ["https://github.com/suzgunmirac/BIG-Bench-Hard"]
+revision = ["9ee07bd481feebf959a6b59d61ea57bdcf30964d"]
+grading = "The answer as written, matched exactly"
+
+[benchmarks.columns]
+stratum = "The task of the question"
+question = "The question, with its options in its text when it has them"
+answer = "The right answer, as written: the option such as (B), a word or a sequence"
+worked = "For an example, its chain of thought, from the prompts of the source"
+
+[[benchmarks]]
+id = "ifeval"
+table = "ifeval"
+benchmark = "IFEval"
+component = "Instruction Following"
+domain = "Prompts with instructions that can be checked, such as the number of words or no commas"
+layout = "questions"
+questions = 541
+released = "2023-11"
+licence = "Apache-2.0"
+licence_url = "https://huggingface.co/datasets/google/IFEval"
+source = ["https://huggingface.co/datasets/google/IFEval"]
+revision = ["966cd89545d6b6acfd7638bc708b98261ca58e84"]
+grading = "Each instruction of the prompt checked by its rule"
+
+[benchmarks.columns]
+question = "The prompt, as the model is asked it"
+answer = "Empty: an answer is graded by the checks of its instructions"
+instructions = "The instructions of the prompt, each as its type, such as punctuation:no_comma"
+arguments = "The arguments of each instruction, in the same order, as JSON, such as the number of words"
+
+[[benchmarks]]
+id = "multipl-e-julia"
+table = "multipl_e_julia"
+benchmark = "MultiPL-E, Julia"
+component = "Code"
+domain = "Programming problems of HumanEval, translated into Julia"
+layout = "questions"
+questions = 159
+released = "2022-08"
+licence = "BSD-3-Clause, with a Machine Learning Restriction"
+licence_url = "https://github.com/nuprl/MultiPL-E/blob/main/LICENSE"
+source = ["https://huggingface.co/datasets/nuprl/MultiPL-E"]
+revision = ["28441b6024e71d4a1c1c0f6bf171c935cd5a43f2"]
+grading = "The unit tests run on the function completed (pass@1)"
+
+[benchmarks.columns]
+question = "The prompt: the docstring and the signature of the Julia function to complete"
+answer = "Empty: an answer is graded by its unit tests"
+tests = "The unit tests of the function, in Julia"
+stop_tokens = "The text that ends the function, where a completion is cut"
+
+[[benchmarks]]
+id = "bfcl"
+table = "bfcl"
+benchmark = "Berkeley Function Calling Leaderboard"
+component = "Tool Use"
+domain = "Requests to call functions given their documentation, in ten categories, from one function to several in parallel"
+layout = "questions"
+questions = 2501
+released = "2024-02"
+licence = "Apache-2.0"
+licence_url = "https://github.com/ShishirPatil/gorilla/blob/main/LICENSE"
+source = ["https://huggingface.co/datasets/gorilla-llm/Berkeley-Function-Calling-Leaderboard"]
+revision = ["61fc0608cfd831fcfbbaa676ebdfef0ed963eeda"]
+grading = "The function calls matched against the possible answers, by their syntax tree"
+
+[benchmarks.columns]
+stratum = "The category of the question, such as simple, parallel or live_multiple"
+question = "The messages of the request, as JSON"
+answer = "The possible answers: each function to call, with the values each argument may take, as JSON"
+functions = "The documentation of the functions the model may call, as JSON"
+
+[[benchmarks]]
+id = "scifact"
+table = "scifact"
+benchmark = "SciFact"
+component = "Embedding, Reranking"
+domain = "Scientific claims, and the abstracts that support or refute them"
+layout = "retrieval"
+questions = 300
+documents = 5183
+released = "2020-04"
+licence = "CC BY 4.0 (claims), ODC-By 1.0 (abstracts)"
+licence_url = "https://github.com/allenai/scifact/blob/master/LICENSE.md"
+source = ["https://huggingface.co/datasets/BeIR/scifact", "https://huggingface.co/datasets/BeIR/scifact-qrels"]
+revision = ["b3b5335604bf5ee3c4447671af975ea25143d4f5", "2938d17dc3b09882fdb8c12bbbe2e2dc0e75a029"]
+grading = "nDCG@10 of the abstracts found, against the relevance labels"
+
+[benchmarks.columns]
+text = "The claim, for a query; the abstract, for a document"
+
+[[benchmarks]]
+id = "scidocs"
+table = "scidocs"
+benchmark = "SCIDOCS"
+component = "Embedding, Reranking"
+domain = "Titles of scientific papers, and the papers they cite"
+layout = "retrieval"
+questions = 1000
+documents = 25657
+released = "2020-04"
+licence = "CC BY 4.0"
+licence_url = "https://github.com/allenai/scidocs/blob/master/LICENSE"
+source = ["https://huggingface.co/datasets/BeIR/scidocs", "https://huggingface.co/datasets/BeIR/scidocs-qrels"]
+revision = ["acebceec772628c6679d76d6cff30ad517d17f4e", "735ea1048e37b1ebce14c6dc3d33a5edaf66d3dc"]
+grading = "nDCG@10 of the papers found, against the relevance labels"
+
+[benchmarks.columns]
+text = "The title of a paper, for a query; the abstract, for a document"
+
+[[benchmarks]]
+id = "pubmedqa"
+table = "pubmedqa"
+benchmark = "PubMedQA"
+component = "Open Book Answering"
+domain = "Questions on medical research, each answered from the abstract of its article"
+layout = "questions"
+questions = 500
+released = "2019-09"
+licence = "MIT"
+licence_url = "https://github.com/pubmedqa/pubmedqa/blob/master/LICENSE"
+source = ["https://huggingface.co/datasets/qiaojin/PubMedQA", "https://github.com/pubmedqa/pubmedqa"]
+revision = ["9001f2853fb87cab8d220904e0de81ac6973b318", "1cbae8e92f72f20c8d3747cbb3bf5bc53554d997"]
+grading = "Yes, no or maybe"
+
+[benchmarks.columns]
+id = "The PubMed id of the article"
+question = "The question, the title of the article"
+answer = "The right answer: yes, no or maybe"
+worked = "The conclusion of the abstract, which answers the question"
+context = "The abstract without its conclusion, a paragraph per section"
+sections = "The section of each paragraph of the context, in the same order, such as METHODS"
+
+[[benchmarks]]
+id = "finqa"
+table = "finqa"
+benchmark = "FinQA"
+component = "Open Book Answering"
+domain = "Questions on the earnings reports of S&P 500 companies, answered by arithmetic on their tables and text"
+layout = "questions"
+questions = 1147
+released = "2021-09"
+licence = "MIT"
+licence_url = "https://github.com/czyssrs/FinQA/blob/main/LICENSE"
+source = ["https://github.com/czyssrs/FinQA"]
+revision = ["0f16e2867befa6840783e58be38c9efb9229d742"]
+grading = "The number, or the yes or no, that the answer gives"
+
+[benchmarks.columns]
+id = "The id of the question: the page of the report and its number on it"
+answer = "The right answer: the result of the program, a number, or yes or no"
+worked = "The program that computes the answer, such as subtract(5829, 5735)"
+pre_text = "The sentences of the page before its table"
+report_table = "The table of the page, a list of rows"
+post_text = "The sentences of the page after its table"

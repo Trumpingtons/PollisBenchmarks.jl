@@ -61,18 +61,28 @@ const PB = PollisBenchmarks
 	@testset "Catalogue" begin
 		@test sort(collect(keys(PB.BENCHMARKS))) == ["gsm8k", "mmlu-pro"]
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
-		# Every benchmark has its entry, and every entry its benchmark, of the same revision
-		@test sort([entry["id"] for entry in PB.catalogue()]) == sort(collect(keys(PB.BENCHMARKS)))
+		# Every benchmark that runs has its entry, of the same revision
 		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)
-		@test [(entry["id"], entry["availability"], get(entry, "table", nothing)) for entry in PB.catalogue()] ==
-			[("gsm8k", "Built In", "gsm8k"), ("mmlu-pro", "Built In", "mmlu_pro")]
+		# The eleven benchmarks, each with its table, and as many revisions as sources
+		@test [(entry["id"], entry["table"], entry["layout"]) for entry in PB.catalogue()] == [
+			("bbh", "bbh", "questions"), ("bfcl", "bfcl", "questions"), ("finqa", "finqa", "questions"),
+			("gsm8k", "gsm8k", "questions"), ("ifeval", "ifeval", "questions"), ("mmlu-pro", "mmlu_pro", "questions"),
+			("multipl-e-julia", "multipl_e_julia", "questions"), ("pubmedqa", "pubmedqa", "questions"),
+			("scidocs", "scidocs", "retrieval"), ("scifact", "scifact", "retrieval"), ("truthfulqa", "truthfulqa", "questions")]
+		@test all(length(entry["source"]) == length(entry["revision"]) for entry in PB.catalogue())
 	end
 
 	@testset "Artifact" begin
 		folder = PB.artifact_folder()
 		@test folder !== nothing
-		# As many questions as the catalogue says, as published: 1,319 for GSM8K, 12,032 for MMLU-Pro
-		@test [length(PB.parquet_rows(joinpath(folder, "$(id).parquet"))) for id in ["gsm8k", "mmlu-pro"]] == [1319, 12032]
+		rows(file) = isfile(joinpath(folder, file)) ? length(PB.parquet_rows(joinpath(folder, file))) : 0
+		# As many questions, examples and documents as their papers and sources give: the test splits of FinQA (1,147)
+		# and of PubMedQA (500), the 300 claims of SciFact with relevance labels, the 2,501 of the ten categories of BFCL
+		@test [(id, rows("$(id).parquet"), rows("$(id)-examples.parquet"), rows("$(id)-documents.parquet")) for id in
+			["bbh", "bfcl", "finqa", "gsm8k", "ifeval", "mmlu-pro", "multipl-e-julia", "pubmedqa", "scidocs", "scifact", "truthfulqa"]] == [
+			("bbh", 6511, 81, 0), ("bfcl", 2501, 0, 0), ("finqa", 1147, 883, 0), ("gsm8k", 1319, 7473, 0), ("ifeval", 541, 0, 0),
+			("mmlu-pro", 12032, 70, 0), ("multipl-e-julia", 159, 0, 0), ("pubmedqa", 500, 500, 0), ("scidocs", 1000, 0, 25657),
+			("scifact", 300, 0, 5183), ("truthfulqa", 817, 0, 0)]
 		@test isfile(joinpath(folder, "LICENCES.md"))
 	end
 end

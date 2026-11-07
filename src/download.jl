@@ -55,13 +55,13 @@ end
 
 Makes the questions and examples of `benchmark` ("mmlu-pro", "gsm8k") ready in `DATA/<benchmark>`, at the revision
 of the dataset that the catalogue fixes, and answers its `info`: the revision and the number of questions of each
-stratum. A benchmark built in is read from the artifact of the package; any other is downloaded from its source,
-once, and again when its files are of another revision.
+stratum. The questions are read from the artifact of the package or, when it is not on this computer, downloaded
+from their source, once, and again when its files are of another revision.
 """
 function download(id; progress = (done, total) -> nothing)
 	benchmark = benchmark_of(id)
 	folder = joinpath(DATA, benchmark.id)
-	artifact = built_in(benchmark.id) ? artifact_folder() : nothing
+	artifact = artifact_folder()
 	if artifact !== nothing
 		progress(0, 3)
 		questions = [question_of(row) for row in parquet_rows(joinpath(artifact, "$(benchmark.id).parquet"))]

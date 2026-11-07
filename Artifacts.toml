@@ -1,6 +1,6 @@
 [benchmarks]
-git-tree-sha1 = "e98e6efa7690d09ed538e590909269352b9615a3"
+git-tree-sha1 = "cddca1d21beedfc36b3c40c1a1d64b6b3001d73f"
 
     [[benchmarks.download]]
-    sha256 = "f9e70ffeaff9c55bddcb280fbd2159e684eebaad3450844e79c9f4118d5a44e4"
-    url = "https://github.com/Trumpingtons/PollisBenchmarks.jl/releases/download/2026-11-07/benchmarks-2026-11-07.tar.gz"
+    sha256 = "187926da2faf2b5dfbc300ddf476c952d55f9cb21c6820286e3a9567e4cd58ab"
+    url = "https://github.com/Trumpingtons/PollisBenchmarks.jl/releases/download/2026-11-07b/benchmarks-2026-11-07b.tar.gz"
