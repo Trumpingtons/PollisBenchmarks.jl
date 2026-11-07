@@ -7,9 +7,9 @@ notebook calls the same ones, so that both do the same things:
 
 ```julia
 import PollisBenchmarks as PB
-PB.download("mmlu-pro")
-sample = PB.draw("mmlu-pro"; size = 140, allocation = "equal", seed = 1)
-run = PB.new_run("mmlu-pro", sample; shots = 0, reasoning = true)
+PB.download("mmlu_pro")
+sample = PB.draw("mmlu_pro"; size = 140, allocation = "equal", seed = 1)
+run = PB.new_run("mmlu_pro", sample; shots = 0, reasoning = true)
 PB.run_models!(run, ["hf:unsloth/Qwen3.5-0.8B-GGUF/Qwen3.5-0.8B-Q4_K_M.gguf"])
 PB.figures(run)
 ```

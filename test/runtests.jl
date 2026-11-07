@@ -59,18 +59,19 @@ const PB = PollisBenchmarks
 	end
 
 	@testset "Catalogue" begin
-		@test sort(collect(keys(PB.BENCHMARKS))) == ["gsm8k", "mmlu-pro"]
+		@test sort(collect(keys(PB.BENCHMARKS))) == ["gsm8k", "mmlu_pro"]
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
 		# Every benchmark that runs has its entry, of the same revision
 		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)
-		# The eleven benchmarks built in, each with its table, thirteen to download, and as many revisions as sources
-		@test [(entry["id"], entry["table"], entry["layout"]) for entry in PB.catalogue() if entry["availability"] == "Built In"] == [
-			("bbh", "bbh", "questions"), ("bfcl", "bfcl", "questions"), ("finqa", "finqa", "questions"),
-			("gsm8k", "gsm8k", "questions"), ("ifeval", "ifeval", "questions"), ("mmlu-pro", "mmlu_pro", "questions"),
-			("multipl-e-julia", "multipl_e_julia", "questions"), ("pubmedqa", "pubmedqa", "questions"),
-			("scidocs", "scidocs", "retrieval"), ("scifact", "scifact", "retrieval"), ("truthfulqa", "truthfulqa", "questions")]
-		@test sort([entry["id"] for entry in PB.catalogue() if entry["availability"] == "Download"]) == ["arc-challenge", "crag",
-			"financebench", "fiqa", "gpqa", "hotpotqa", "multihop-rag", "natural-questions", "nfcorpus", "qasper", "spider", "squad-v2", "trec-covid"]
+		# The eleven benchmarks built in, with their layout, thirteen to download, and as many revisions as sources
+		@test [(entry["id"], entry["layout"]) for entry in PB.catalogue() if entry["availability"] == "Built In"] == [
+			("bbh", "questions"), ("bfcl", "questions"), ("finqa", "questions"), ("gsm8k", "questions"), ("ifeval", "questions"),
+			("mmlu_pro", "questions"), ("multipl_e_julia", "questions"), ("pubmedqa", "questions"), ("scidocs", "retrieval"),
+			("scifact", "retrieval"), ("truthfulqa", "questions")]
+		# Every id is a name SQL takes without quotes, the name of the table of a benchmark built in
+		@test all(entry -> occursin(r"^[a-z][a-z0-9_]*$", entry["id"]), PB.catalogue())
+		@test sort([entry["id"] for entry in PB.catalogue() if entry["availability"] == "Download"]) == ["arc_challenge", "crag",
+			"financebench", "fiqa", "gpqa", "hotpotqa", "multihop_rag", "natural_questions", "nfcorpus", "qasper", "spider", "squad_v2", "trec_covid"]
 		@test all(length(entry["source"]) == length(entry["revision"]) for entry in PB.catalogue())
 	end
 
@@ -81,9 +82,9 @@ const PB = PollisBenchmarks
 		# As many questions, examples and documents as their papers and sources give: the test splits of FinQA (1,147)
 		# and of PubMedQA (500), the 300 claims of SciFact with relevance labels, the 2,501 of the ten categories of BFCL
 		@test [(id, rows("$(id).parquet"), rows("$(id)-examples.parquet"), rows("$(id)-documents.parquet")) for id in
-			["bbh", "bfcl", "finqa", "gsm8k", "ifeval", "mmlu-pro", "multipl-e-julia", "pubmedqa", "scidocs", "scifact", "truthfulqa"]] == [
+			["bbh", "bfcl", "finqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "scidocs", "scifact", "truthfulqa"]] == [
 			("bbh", 6511, 81, 0), ("bfcl", 2501, 0, 0), ("finqa", 1147, 883, 0), ("gsm8k", 1319, 7473, 0), ("ifeval", 541, 0, 0),
-			("mmlu-pro", 12032, 70, 0), ("multipl-e-julia", 159, 0, 0), ("pubmedqa", 500, 500, 0), ("scidocs", 1000, 0, 25657),
+			("mmlu_pro", 12032, 70, 0), ("multipl_e_julia", 159, 0, 0), ("pubmedqa", 500, 500, 0), ("scidocs", 1000, 0, 25657),
 			("scifact", 300, 0, 5183), ("truthfulqa", 817, 0, 0)]
 		@test isfile(joinpath(folder, "LICENCES.md"))
 	end

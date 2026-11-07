@@ -39,10 +39,10 @@ function mmlu_pro_extract(text)
 end
 
 """The revision of TIGER-Lab/MMLU-Pro on Hugging Face, fixed in the catalogue so that the questions do not change when the dataset is updated."""
-const MMLU_PRO_REVISION = revision_of("mmlu-pro")
+const MMLU_PRO_REVISION = revision_of("mmlu_pro")
 
 register!(Benchmark(
-	"mmlu-pro", "MMLU-Pro", MMLU_PRO_REVISION,
+	"mmlu_pro", "MMLU-Pro", MMLU_PRO_REVISION,
 	"https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/$(MMLU_PRO_REVISION)/data/test-00000-of-00001.parquet",
 	"https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/$(MMLU_PRO_REVISION)/data/validation-00000-of-00001.parquet",
 	"category",

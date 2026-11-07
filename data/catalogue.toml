@@ -2,7 +2,8 @@
 # built-in database PollisBenchmarks. The questions of a benchmark Built In are in the artifact `benchmarks`:
 # `<id>.parquet`, the questions of the benchmark, with `<id>-examples.parquet`, the solved examples a prompt can show,
 # and `<id>-documents.parquet`, the documents a retrieval benchmark searches, when it has them; Pollis copies them into
-# one table, `table`, told apart by its column `split`. Those of a benchmark to Download are not in the artifact,
+# one table, named by its id, told apart by its column `split`. An id is a name SQL takes as it is: lower-case
+# letters, digits and underscores. Those of a benchmark to Download are not in the artifact,
 # by their licence or their size: they are fetched from their source, at its revision, by a page that runs them.
 #
 # `source` and `revision` name each source the questions come from and its revision, in the same order. `layout` is
@@ -13,8 +14,7 @@
 # that of a benchmark Built In is the size of its files in the artifact, which Pollis measures.
 
 [[benchmarks]]
-id = "mmlu-pro"
-table = "mmlu_pro"
+id = "mmlu_pro"
 benchmark = "MMLU-Pro"
 component = "Closed Book Answering"
 domain = "14 subjects, from law and economics to physics"
@@ -32,7 +32,6 @@ reference = "WMZNC...2024a"
 
 [[benchmarks]]
 id = "gsm8k"
-table = "gsm8k"
 benchmark = "GSM8K"
 component = "Closed Book Answering"
 domain = "Grade-school mathematics word problems"
@@ -50,7 +49,6 @@ reference = "CKBCJ...2021a"
 
 [[benchmarks]]
 id = "truthfulqa"
-table = "truthfulqa"
 benchmark = "TruthfulQA"
 component = "Closed Book Answering"
 domain = "Questions that some people answer falsely, from misconceptions, in 38 categories such as health, law and finance"
@@ -69,7 +67,6 @@ choices = "The options of the question (MC1), in the order of the source, where 
 
 [[benchmarks]]
 id = "bbh"
-table = "bbh"
 benchmark = "BIG-Bench Hard"
 component = "Closed Book Answering"
 domain = "27 reasoning tasks, such as logical deduction, date understanding and multistep arithmetic"
@@ -91,7 +88,6 @@ worked = "For an example, its chain of thought, from the prompts of the source"
 
 [[benchmarks]]
 id = "ifeval"
-table = "ifeval"
 benchmark = "IFEval"
 component = "Instruction Following"
 domain = "Prompts with instructions that can be checked, such as the number of words or no commas"
@@ -112,8 +108,7 @@ instructions = "The instructions of the prompt, each as its type, such as punctu
 arguments = "The arguments of each instruction, in the same order, as JSON, such as the number of words"
 
 [[benchmarks]]
-id = "multipl-e-julia"
-table = "multipl_e_julia"
+id = "multipl_e_julia"
 benchmark = "MultiPL-E, Julia"
 component = "Code"
 domain = "Programming problems of HumanEval, translated into Julia"
@@ -135,7 +130,6 @@ stop_tokens = "The text that ends the function, where a completion is cut"
 
 [[benchmarks]]
 id = "bfcl"
-table = "bfcl"
 benchmark = "Berkeley Function Calling Leaderboard"
 component = "Tool Use"
 domain = "Requests to call functions given their documentation, in ten categories, from one function to several in parallel"
@@ -157,7 +151,6 @@ functions = "The documentation of the functions the model may call, as JSON"
 
 [[benchmarks]]
 id = "scifact"
-table = "scifact"
 benchmark = "SciFact"
 component = "Embedding, Reranking"
 domain = "Scientific claims, and the abstracts that support or refute them"
@@ -177,7 +170,6 @@ text = "The claim, for a query; the abstract, for a document"
 
 [[benchmarks]]
 id = "scidocs"
-table = "scidocs"
 benchmark = "SCIDOCS"
 component = "Embedding, Reranking"
 domain = "Titles of scientific papers, and the papers they cite"
@@ -197,7 +189,6 @@ text = "The title of a paper, for a query; the abstract, for a document"
 
 [[benchmarks]]
 id = "pubmedqa"
-table = "pubmedqa"
 benchmark = "PubMedQA"
 component = "Open Book Answering"
 domain = "Questions on medical research, each answered from the abstract of its article"
@@ -221,7 +212,6 @@ sections = "The section of each paragraph of the context, in the same order, suc
 
 [[benchmarks]]
 id = "finqa"
-table = "finqa"
 benchmark = "FinQA"
 component = "Open Book Answering"
 domain = "Questions on the earnings reports of S&P 500 companies, answered by arithmetic on their tables and text"
@@ -244,7 +234,7 @@ report_table = "The table of the page, a list of rows"
 post_text = "The sentences of the page after its table"
 
 [[benchmarks]]
-id = "arc-challenge"
+id = "arc_challenge"
 benchmark = "ARC-Challenge"
 component = "Closed Book Answering"
 domain = "Grade-school science questions, those that simple methods fail on"
@@ -292,7 +282,7 @@ revision = ["0c350918f3f29ec754f1181c65cdce76cd6c133c"]
 grading = "The results of the SQL query, compared with those of the right one"
 
 [[benchmarks]]
-id = "squad-v2"
+id = "squad_v2"
 benchmark = "SQuAD 2.0"
 component = "Open Book Answering"
 domain = "Questions on paragraphs of Wikipedia, some of them not answerable from their paragraph"
@@ -339,7 +329,7 @@ revision = ["fdc9d8214fbab5dd782958601db4d678e6934a54"]
 grading = "Token F1 of a free answer; yes or no; not answerable"
 
 [[benchmarks]]
-id = "multihop-rag"
+id = "multihop_rag"
 benchmark = "MultiHop-RAG"
 component = "Open Library Answering"
 domain = "Questions on news articles of September to December 2023, answered from several of them"
@@ -390,7 +380,7 @@ revision = ["979c07a7cb5ccc6ca009792241fa1250b98055dd"]
 grading = "nDCG@10 of the documents found, against the relevance labels"
 
 [[benchmarks]]
-id = "trec-covid"
+id = "trec_covid"
 benchmark = "TREC-COVID"
 component = "Embedding, Reranking"
 domain = "Questions on COVID-19, and the articles of its literature relevant to them"
@@ -438,7 +428,7 @@ revision = ["e04404e3a97f69f79c14d42f24981a1c9c3bcd18"]
 grading = "A free answer, graded by people in its paper"
 
 [[benchmarks]]
-id = "natural-questions"
+id = "natural_questions"
 benchmark = "Natural Questions"
 component = "Open Library Answering"
 domain = "Questions people asked Google, answered from Wikipedia"

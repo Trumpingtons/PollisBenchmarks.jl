@@ -53,7 +53,7 @@ end
 """
 	download(benchmark; progress = (done, total) -> nothing)
 
-Makes the questions and examples of `benchmark` ("mmlu-pro", "gsm8k") ready in `DATA/<benchmark>`, at the revision
+Makes the questions and examples of `benchmark` ("mmlu_pro", "gsm8k") ready in `DATA/<benchmark>`, at the revision
 of the dataset that the catalogue fixes, and answers its `info`: the revision and the number of questions of each
 stratum. The questions of a benchmark built in are read from the artifact of the package; those of any other, or
 when the artifact is not on this computer, are downloaded from their source, once, and again when its files are of

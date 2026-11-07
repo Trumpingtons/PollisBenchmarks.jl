@@ -46,8 +46,8 @@ const CATALOGUE = Dict(entry["id"] => entry for entry in TOML.parsefile(CATALOGU
 The entries of the catalogue, one per benchmark: id, benchmark, component, domain, layout, availability (Built In,
 its questions in the artifact, or Download, fetched from its source), questions, documents (for a benchmark that
 searches documents), released, licence, licence_url, source and revision (each source and its revision, in the same
-order), grading, page (the page of Pollis that runs it, when there is one), reference and, for one built in, table
-(the name of its table in Pollis's database PollisBenchmarks) and columns.
+order), size_mb, grading, page (the page of Pollis that runs it, when there is one), reference and, for one built
+in, columns. The id of a benchmark built in is also the name of its table in Pollis's database PollisBenchmarks.
 """
 catalogue() = [CATALOGUE[id] for id in sort(collect(keys(CATALOGUE)))]
 
