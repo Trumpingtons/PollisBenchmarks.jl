@@ -1,8 +1,8 @@
 """
 	PollisBenchmarks
 
-The published benchmarks that Pollis runs on the chat models of a computer, as Model Benchmarks does (Compose >
-Local Models > Model Benchmarks... in Pollis). The page runs these functions in a hidden Julia process, and a
+The published benchmarks that Pollis runs on the chat models of a computer, as Benchmark Answering Models does (Compose >
+Local AI Models > Benchmark Answering Models... in Pollis). The page runs these functions in a hidden Julia process, and a
 notebook calls the same ones, so that both do the same things:
 
 ```julia

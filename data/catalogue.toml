@@ -27,7 +27,7 @@ licence_url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"
 source = ["https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"]
 revision = ["b189ec765aa7ed75c8acfea42df31fdae71f97be"]
 grading = "The letter of the option chosen, among up to ten"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "WMZNC...2024a"
 
 [[benchmarks]]
@@ -44,7 +44,7 @@ licence_url = "https://huggingface.co/datasets/openai/gsm8k"
 source = ["https://huggingface.co/datasets/openai/gsm8k"]
 revision = ["740312add88f781978c0658806c59bc2815b9866"]
 grading = "The final number"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "CKBCJ...2021a"
 
 [[benchmarks]]
@@ -61,7 +61,7 @@ licence_url = "https://github.com/sylinrl/TruthfulQA/blob/main/LICENSE"
 source = ["https://huggingface.co/datasets/truthfulqa/truthful_qa"]
 revision = ["741b8276f2d1982aa3d5b832d3ee81ed3b896490"]
 grading = "The letter of the option chosen (MC1), one of them true"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "LHE2022a"
 
 [benchmarks.columns]
@@ -81,7 +81,7 @@ licence_url = "https://github.com/suzgunmirac/BIG-Bench-Hard/blob/main/LICENSE"
 source = ["https://github.com/suzgunmirac/BIG-Bench-Hard"]
 revision = ["9ee07bd481feebf959a6b59d61ea57bdcf30964d"]
 grading = "The answer as written, matched exactly"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "SSSGT...2023a"
 
 [benchmarks.columns]
@@ -104,7 +104,7 @@ licence_url = "https://huggingface.co/datasets/google/IFEval"
 source = ["https://huggingface.co/datasets/google/IFEval"]
 revision = ["966cd89545d6b6acfd7638bc708b98261ca58e84"]
 grading = "Each instruction of the prompt checked by its rule"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "ZLMBB...2023a"
 
 [benchmarks.columns]
@@ -127,7 +127,7 @@ licence_url = "https://github.com/nuprl/MultiPL-E/blob/main/LICENSE"
 source = ["https://huggingface.co/datasets/nuprl/MultiPL-E"]
 revision = ["28441b6024e71d4a1c1c0f6bf171c935cd5a43f2"]
 grading = "The unit tests run on the function completed (pass@1)"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "CGNNP...2023a"
 
 [benchmarks.columns]
@@ -151,6 +151,7 @@ licence_url = "https://github.com/allenai/scifact/blob/master/LICENSE.md"
 source = ["https://huggingface.co/datasets/BeIR/scifact", "https://huggingface.co/datasets/BeIR/scifact-qrels"]
 revision = ["b3b5335604bf5ee3c4447671af975ea25143d4f5", "2938d17dc3b09882fdb8c12bbbe2e2dc0e75a029"]
 grading = "nDCG@10 of the abstracts found, against the relevance labels"
+page = "Benchmark Embedding and Reranking Models"
 reference = "WLLWZ...2020a"
 
 [benchmarks.columns]
@@ -171,6 +172,7 @@ licence_url = "https://github.com/allenai/scidocs/blob/master/LICENSE"
 source = ["https://huggingface.co/datasets/BeIR/scidocs", "https://huggingface.co/datasets/BeIR/scidocs-qrels"]
 revision = ["acebceec772628c6679d76d6cff30ad517d17f4e", "735ea1048e37b1ebce14c6dc3d33a5edaf66d3dc"]
 grading = "nDCG@10 of the papers found, against the relevance labels"
+page = "Benchmark Embedding and Reranking Models"
 reference = "CFBDW2020a"
 
 [benchmarks.columns]
@@ -190,7 +192,7 @@ licence_url = "https://github.com/pubmedqa/pubmedqa/blob/master/LICENSE"
 source = ["https://huggingface.co/datasets/qiaojin/PubMedQA", "https://github.com/pubmedqa/pubmedqa"]
 revision = ["9001f2853fb87cab8d220904e0de81ac6973b318", "1cbae8e92f72f20c8d3747cbb3bf5bc53554d997"]
 grading = "Yes, no or maybe"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "JDLCL2019a"
 
 [benchmarks.columns]
@@ -215,7 +217,7 @@ licence_url = "https://github.com/czyssrs/FinQA/blob/main/LICENSE"
 source = ["https://github.com/czyssrs/FinQA"]
 revision = ["0f16e2867befa6840783e58be38c9efb9229d742"]
 grading = "The number, or the yes or no, that the answer gives"
-page = "Model Benchmarks"
+page = "Benchmark Answering Models"
 reference = "CCSSB...2021a"
 
 [benchmarks.columns]

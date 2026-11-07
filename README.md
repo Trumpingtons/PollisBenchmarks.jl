@@ -2,7 +2,7 @@
 
 The published benchmarks of [Pollis](https://pollis.org), with their questions at a fixed revision of their sources, and the functions that run them on the chat models of a computer: a stratified sample of the questions drawn with a seed, each model's answers graded as they come, and the score of each model with its 95% interval.
 
-Pollis's Model Benchmarks page (Compose > Local Models > Model Benchmarks...) runs these functions, and a notebook can call the same ones:
+Pollis's Benchmark Answering Models page (Compose > Local AI Models > Benchmark Answering Models...) runs these functions, and a notebook can call the same ones:
 
 ```julia
 import PollisBenchmarks as PB
@@ -49,7 +49,7 @@ MMLU-Pro, GSM8K, TruthfulQA, BIG-Bench Hard, PubMedQA, FinQA, IFEval and MultiPL
 
 ## Runs
 
-A run is written in `~/.pollis/benchmarks/runs` while it goes: `<id>.json`, the benchmark and its revision, the settings, the sample and each model's figures; and `<id>.jsonl`, each answer with its grade and timings. `run_models!` marks it ended. Pollis then moves it into `~/.pollis/ask/Comparisons.duckdb`, its tables `benchmarkRuns`, `benchmarkModels` and `benchmarkAnswers`: at once for a run of Model Benchmarks, the next time the page opens for a run of a notebook. `runs`, `load_run` and `figures` read the runs still in their files.
+A run is written in `~/.pollis/benchmarks/runs` while it goes: `<id>.json`, the benchmark and its revision, the settings, the sample and each model's figures; and `<id>.jsonl`, each answer with its grade and timings. `run_models!` marks it ended. Pollis then moves it into `~/.pollis/ask/Comparisons.duckdb`, its tables `benchmarkRuns`, `benchmarkModels` and `benchmarkAnswers`: at once for a run of Benchmark Answering Models, the next time the page opens for a run of a notebook. `runs`, `load_run` and `figures` read the runs still in their files.
 
 ## Licence
 
