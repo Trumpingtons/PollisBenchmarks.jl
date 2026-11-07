@@ -35,7 +35,7 @@ benchmark_of(id) = get(BENCHMARKS, String(id)) do
 	error("No benchmark $(id): PollisBenchmarks has $(join(sort(collect(keys(BENCHMARKS))), ", ")).")
 end
 
-"""The catalogue of the benchmarks, `data/catalogue.toml`: what each measures, its sources and revisions, and its licence."""
+"""The catalogue of the benchmarks, `data/catalogue.toml`: what each measures, its sources and revisions, its licence and whether it is built in."""
 const CATALOGUE_FILE = joinpath(dirname(@__DIR__), "data", "catalogue.toml")
 include_dependency(CATALOGUE_FILE)
 const CATALOGUE = Dict(entry["id"] => entry for entry in TOML.parsefile(CATALOGUE_FILE)["benchmarks"])
@@ -43,10 +43,11 @@ const CATALOGUE = Dict(entry["id"] => entry for entry in TOML.parsefile(CATALOGU
 """
 	catalogue()
 
-The entries of the catalogue, one per benchmark: id, table (the name of its table in Pollis's database
-PollisBenchmarks), benchmark, component, domain, layout, questions, documents (for a retrieval benchmark), released,
-licence, licence_url, source and revision (each source and its revision, in the same order), grading, page (the page
-of Pollis that runs it, when there is one), reference and columns.
+The entries of the catalogue, one per benchmark: id, benchmark, component, domain, layout, availability (Built In,
+its questions in the artifact, or Download, fetched from its source), questions, documents (for a benchmark that
+searches documents), released, licence, licence_url, source and revision (each source and its revision, in the same
+order), grading, page (the page of Pollis that runs it, when there is one), reference and, for one built in, table
+(the name of its table in Pollis's database PollisBenchmarks) and columns.
 """
 catalogue() = [CATALOGUE[id] for id in sort(collect(keys(CATALOGUE)))]
 
@@ -58,12 +59,15 @@ end
 """The revision of the first source of the benchmark `id`, the one its questions come from."""
 revision_of(id) = String(first(catalogue_entry(id)["revision"]))
 
+"""Whether the questions of the benchmark `id` come with the package, in its artifact, rather than from its source."""
+built_in(id) = catalogue_entry(id)["availability"] == "Built In"
+
 """The Artifacts.toml of the package, which names the artifact `benchmarks`, the questions of the benchmarks."""
 const ARTIFACTS_FILE = joinpath(dirname(@__DIR__), "Artifacts.toml")
 
 """
 The folder of the artifact `benchmarks`, which Pkg downloads with the package: `<id>.parquet`, the questions of each
-benchmark, with `<id>-examples.parquet`, its examples, and `<id>-documents.parquet`, the documents of a retrieval
+benchmark built in, with `<id>-examples.parquet`, its examples, and `<id>-documents.parquet`, the documents of a retrieval
 benchmark, when it has them; and `LICENCES.md`. Nothing when the artifact is not on this computer.
 """
 function artifact_folder()

@@ -17,21 +17,34 @@ PB.figures(run)
 
 ## Benchmarks
 
-| Id | Benchmark | What it measures | Questions | Licence |
-|---|---|---|---|---|
-| `mmlu-pro` | MMLU-Pro | Closed Book Answering | 12,032 | MIT |
-| `gsm8k` | GSM8K | Closed Book Answering | 1,319 | MIT |
-| `truthfulqa` | TruthfulQA | Closed Book Answering | 817 | Apache-2.0 |
-| `bbh` | BIG-Bench Hard | Closed Book Answering | 6,511 | MIT |
-| `ifeval` | IFEval | Instruction Following | 541 | Apache-2.0 |
-| `multipl-e-julia` | MultiPL-E, Julia | Code | 159 | BSD-3-Clause, with a Machine Learning Restriction |
-| `bfcl` | Berkeley Function Calling Leaderboard | Tool Use | 2,501 | Apache-2.0 |
-| `scifact` | SciFact | Embedding, Reranking | 300 queries, 5,183 documents | CC BY 4.0, ODC-By 1.0 |
-| `scidocs` | SCIDOCS | Embedding, Reranking | 1,000 queries, 25,657 documents | CC BY 4.0 |
-| `pubmedqa` | PubMedQA | Open Book Answering | 500 | MIT |
-| `finqa` | FinQA | Open Book Answering | 1,147 | MIT |
+| Id | Benchmark | What it measures | Questions | Licence | |
+|---|---|---|---|---|---|
+| `mmlu-pro` | MMLU-Pro | Closed Book Answering | 12,032 | MIT | Built In |
+| `gsm8k` | GSM8K | Closed Book Answering | 1,319 | MIT | Built In |
+| `truthfulqa` | TruthfulQA | Closed Book Answering | 817 | Apache-2.0 | Built In |
+| `bbh` | BIG-Bench Hard | Closed Book Answering | 6,511 | MIT | Built In |
+| `ifeval` | IFEval | Instruction Following | 541 | Apache-2.0 | Built In |
+| `multipl-e-julia` | MultiPL-E, Julia | Code | 159 | BSD-3-Clause, with a Machine Learning Restriction | Built In |
+| `bfcl` | Berkeley Function Calling Leaderboard | Tool Use | 2,501 | Apache-2.0 | Built In |
+| `scifact` | SciFact | Embedding, Reranking | 300 queries, 5,183 documents | CC BY 4.0, ODC-By 1.0 | Built In |
+| `scidocs` | SCIDOCS | Embedding, Reranking | 1,000 queries, 25,657 documents | CC BY 4.0 | Built In |
+| `pubmedqa` | PubMedQA | Open Book Answering | 500 | MIT | Built In |
+| `finqa` | FinQA | Open Book Answering | 1,147 | MIT | Built In |
+| `arc-challenge` | ARC-Challenge | Closed Book Answering | 1,172 | CC BY-SA 4.0 | Download |
+| `gpqa` | GPQA | Closed Book Answering | 448 | CC BY 4.0 | Download |
+| `spider` | Spider | Text to SQL | 1,034 | CC BY-SA 4.0 | Download |
+| `squad-v2` | SQuAD 2.0 | Open Book Answering | 11,873 | CC BY-SA 4.0 | Download |
+| `hotpotqa` | HotpotQA | Open Book Answering | 7,405 | CC BY-SA 4.0 | Download |
+| `qasper` | QASPER | Open Book Answering | | CC BY 4.0 | Download |
+| `multihop-rag` | MultiHop-RAG | Open Library Answering | 2,556 | ODC-By | Download |
+| `nfcorpus` | NFCorpus | Embedding, Reranking | 323 queries, 3,633 documents | Academic use only | Download |
+| `fiqa` | FiQA-2018 | Embedding, Reranking | 648 queries, 57,638 documents | Non-commercial use only | Download |
+| `trec-covid` | TREC-COVID | Embedding, Reranking | 50 queries, 171,332 documents | Not stated at its source | Download |
+| `crag` | CRAG | Open Library Answering | | CC BY-NC 4.0 | Download |
+| `financebench` | FinanceBench | Open Library Answering | 150 | CC BY-NC 4.0 | Download |
+| `natural-questions` | Natural Questions | Open Library Answering | 7,830 | CC BY-SA 3.0 | Download |
 
-`data/catalogue.toml` describes each benchmark: what it measures, its sources and the revision of each its questions come from, its licence, how an answer is graded, and the columns of its own. The questions come with the package, in its artifact `benchmarks`: a Parquet file of questions for each benchmark, one of examples when it has them and one of documents for a retrieval benchmark, with `LICENCES.md`, made from their sources at those revisions. Pollis copies them into its built-in database PollisBenchmarks, a table for each benchmark. The questions of each benchmark keep the licence of their source.
+`data/catalogue.toml` describes each benchmark: what it measures, its sources and the revision of each its questions come from, its licence, how an answer is graded, the columns of its own, and whether it is built in. The questions of a benchmark Built In come with the package, in its artifact `benchmarks`: a Parquet file of questions for each, one of examples when it has them and one of documents for a retrieval benchmark, with `LICENCES.md`, made from their sources at those revisions. Pollis copies them into its built-in database PollisBenchmarks, a table for each benchmark. The questions of a benchmark to Download are not in the artifact, by their licence or their size: they are fetched from their source, at its revision, by a page that runs them. The questions of each benchmark keep the licence of their source.
 
 MMLU-Pro and GSM8K run: `download(id)` makes their questions ready in `~/.pollis/benchmarks/data/<id>`, from the artifact, or from their source when the artifact is not on the computer.
 

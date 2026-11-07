@@ -63,12 +63,14 @@ const PB = PollisBenchmarks
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
 		# Every benchmark that runs has its entry, of the same revision
 		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)
-		# The eleven benchmarks, each with its table, and as many revisions as sources
-		@test [(entry["id"], entry["table"], entry["layout"]) for entry in PB.catalogue()] == [
+		# The eleven benchmarks built in, each with its table, thirteen to download, and as many revisions as sources
+		@test [(entry["id"], entry["table"], entry["layout"]) for entry in PB.catalogue() if entry["availability"] == "Built In"] == [
 			("bbh", "bbh", "questions"), ("bfcl", "bfcl", "questions"), ("finqa", "finqa", "questions"),
 			("gsm8k", "gsm8k", "questions"), ("ifeval", "ifeval", "questions"), ("mmlu-pro", "mmlu_pro", "questions"),
 			("multipl-e-julia", "multipl_e_julia", "questions"), ("pubmedqa", "pubmedqa", "questions"),
 			("scidocs", "scidocs", "retrieval"), ("scifact", "scifact", "retrieval"), ("truthfulqa", "truthfulqa", "questions")]
+		@test sort([entry["id"] for entry in PB.catalogue() if entry["availability"] == "Download"]) == ["arc-challenge", "crag",
+			"financebench", "fiqa", "gpqa", "hotpotqa", "multihop-rag", "natural-questions", "nfcorpus", "qasper", "spider", "squad-v2", "trec-covid"]
 		@test all(length(entry["source"]) == length(entry["revision"]) for entry in PB.catalogue())
 	end
 

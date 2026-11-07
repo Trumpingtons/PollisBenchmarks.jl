@@ -1,12 +1,14 @@
 # The benchmarks of PollisBenchmarks.jl: one entry each, which Pollis copies into the table `catalogue` of its
-# built-in database PollisBenchmarks. The questions of each are in the artifact `benchmarks`: `<id>.parquet`, the
-# questions of the benchmark, with `<id>-examples.parquet`, the solved examples a prompt can show, and
-# `<id>-documents.parquet`, the documents a retrieval benchmark searches, when it has them; Pollis copies them into
-# one table, `table`, told apart by its column `split`.
+# built-in database PollisBenchmarks. The questions of a benchmark Built In are in the artifact `benchmarks`:
+# `<id>.parquet`, the questions of the benchmark, with `<id>-examples.parquet`, the solved examples a prompt can show,
+# and `<id>-documents.parquet`, the documents a retrieval benchmark searches, when it has them; Pollis copies them into
+# one table, `table`, told apart by its column `split`. Those of a benchmark to Download are not in the artifact,
+# by their licence or their size: they are fetched from their source, at its revision, by a page that runs them.
 #
 # `source` and `revision` name each source the questions come from and its revision, in the same order. `layout` is
 # "questions" (id, stratum, question, choices, answer, worked, and the columns of `columns`) or "retrieval" (id,
 # title, text, relevant). `columns` describes the columns of a benchmark of its own, or what a column means for it.
+# `questions` is left out where the number of questions is not confirmed.
 
 [[benchmarks]]
 id = "mmlu-pro"
@@ -15,6 +17,7 @@ benchmark = "MMLU-Pro"
 component = "Closed Book Answering"
 domain = "14 subjects, from law and economics to physics"
 layout = "questions"
+availability = "Built In"
 questions = 12032
 released = "2024-06"
 licence = "MIT"
@@ -32,6 +35,7 @@ benchmark = "GSM8K"
 component = "Closed Book Answering"
 domain = "Grade-school mathematics word problems"
 layout = "questions"
+availability = "Built In"
 questions = 1319
 released = "2021-10"
 licence = "MIT"
@@ -49,6 +53,7 @@ benchmark = "TruthfulQA"
 component = "Closed Book Answering"
 domain = "Questions that some people answer falsely, from misconceptions, in 38 categories such as health, law and finance"
 layout = "questions"
+availability = "Built In"
 questions = 817
 released = "2021-09"
 licence = "Apache-2.0"
@@ -67,6 +72,7 @@ benchmark = "BIG-Bench Hard"
 component = "Closed Book Answering"
 domain = "27 reasoning tasks, such as logical deduction, date understanding and multistep arithmetic"
 layout = "questions"
+availability = "Built In"
 questions = 6511
 released = "2022-10"
 licence = "MIT"
@@ -88,6 +94,7 @@ benchmark = "IFEval"
 component = "Instruction Following"
 domain = "Prompts with instructions that can be checked, such as the number of words or no commas"
 layout = "questions"
+availability = "Built In"
 questions = 541
 released = "2023-11"
 licence = "Apache-2.0"
@@ -109,6 +116,7 @@ benchmark = "MultiPL-E, Julia"
 component = "Code"
 domain = "Programming problems of HumanEval, translated into Julia"
 layout = "questions"
+availability = "Built In"
 questions = 159
 released = "2022-08"
 licence = "BSD-3-Clause, with a Machine Learning Restriction"
@@ -130,6 +138,7 @@ benchmark = "Berkeley Function Calling Leaderboard"
 component = "Tool Use"
 domain = "Requests to call functions given their documentation, in ten categories, from one function to several in parallel"
 layout = "questions"
+availability = "Built In"
 questions = 2501
 released = "2024-02"
 licence = "Apache-2.0"
@@ -151,6 +160,7 @@ benchmark = "SciFact"
 component = "Embedding, Reranking"
 domain = "Scientific claims, and the abstracts that support or refute them"
 layout = "retrieval"
+availability = "Built In"
 questions = 300
 documents = 5183
 released = "2020-04"
@@ -170,6 +180,7 @@ benchmark = "SCIDOCS"
 component = "Embedding, Reranking"
 domain = "Titles of scientific papers, and the papers they cite"
 layout = "retrieval"
+availability = "Built In"
 questions = 1000
 documents = 25657
 released = "2020-04"
@@ -189,6 +200,7 @@ benchmark = "PubMedQA"
 component = "Open Book Answering"
 domain = "Questions on medical research, each answered from the abstract of its article"
 layout = "questions"
+availability = "Built In"
 questions = 500
 released = "2019-09"
 licence = "MIT"
@@ -212,6 +224,7 @@ benchmark = "FinQA"
 component = "Open Book Answering"
 domain = "Questions on the earnings reports of S&P 500 companies, answered by arithmetic on their tables and text"
 layout = "questions"
+availability = "Built In"
 questions = 1147
 released = "2021-09"
 licence = "MIT"
@@ -227,3 +240,200 @@ worked = "The program that computes the answer, such as subtract(5829, 5735)"
 pre_text = "The sentences of the page before its table"
 report_table = "The table of the page, a list of rows"
 post_text = "The sentences of the page after its table"
+
+[[benchmarks]]
+id = "arc-challenge"
+benchmark = "ARC-Challenge"
+component = "Closed Book Answering"
+domain = "Grade-school science questions, those that simple methods fail on"
+layout = "questions"
+availability = "Download"
+questions = 1172
+released = "2018-03"
+licence = "CC BY-SA 4.0"
+licence_url = "https://huggingface.co/datasets/allenai/ai2_arc"
+source = ["https://huggingface.co/datasets/allenai/ai2_arc"]
+revision = ["210d026faf9955653af8916fad021475a3f00453"]
+grading = "The letter of the option chosen, among four"
+
+[[benchmarks]]
+id = "gpqa"
+benchmark = "GPQA"
+component = "Closed Book Answering"
+domain = "Graduate-level questions in biology, physics and chemistry, written by experts"
+layout = "questions"
+availability = "Download"
+questions = 448
+released = "2023-11"
+licence = "CC BY 4.0"
+licence_url = "https://huggingface.co/datasets/Idavidrein/gpqa"
+source = ["https://huggingface.co/datasets/Idavidrein/gpqa"]
+revision = ["83022cefff930aea54f654c0b282e74b9eeda5c6"]
+grading = "The letter of the option chosen, among four"
+
+[[benchmarks]]
+id = "spider"
+benchmark = "Spider"
+component = "Text to SQL"
+domain = "Questions on databases of many domains, each answered by an SQL query"
+layout = "questions"
+availability = "Download"
+questions = 1034
+released = "2018-09"
+licence = "CC BY-SA 4.0"
+licence_url = "https://huggingface.co/datasets/xlangai/spider"
+source = ["https://huggingface.co/datasets/xlangai/spider"]
+revision = ["0c350918f3f29ec754f1181c65cdce76cd6c133c"]
+grading = "The results of the SQL query, compared with those of the right one"
+
+[[benchmarks]]
+id = "squad-v2"
+benchmark = "SQuAD 2.0"
+component = "Open Book Answering"
+domain = "Questions on paragraphs of Wikipedia, some of them not answerable from their paragraph"
+layout = "questions"
+availability = "Download"
+questions = 11873
+released = "2018-06"
+licence = "CC BY-SA 4.0"
+licence_url = "https://huggingface.co/datasets/rajpurkar/squad_v2"
+source = ["https://huggingface.co/datasets/rajpurkar/squad_v2"]
+revision = ["3ffb306f725f7d2ce8394bc1873b24868140c412"]
+grading = "Exact match and token F1 of the answer; no answer for a question not answerable"
+
+[[benchmarks]]
+id = "hotpotqa"
+benchmark = "HotpotQA"
+component = "Open Book Answering"
+domain = "Questions that need two paragraphs of Wikipedia, given among ten"
+layout = "questions"
+availability = "Download"
+questions = 7405
+released = "2018-09"
+licence = "CC BY-SA 4.0"
+licence_url = "https://huggingface.co/datasets/hotpotqa/hotpot_qa"
+source = ["https://huggingface.co/datasets/hotpotqa/hotpot_qa"]
+revision = ["1908d6afbbead072334abe2965f91bd2709910ab"]
+grading = "Exact match and token F1 of the answer"
+
+[[benchmarks]]
+id = "qasper"
+benchmark = "QASPER"
+component = "Open Book Answering"
+domain = "Questions on research papers in natural language processing, answered from the whole paper"
+layout = "questions"
+availability = "Download"
+released = "2021-05"
+licence = "CC BY 4.0"
+licence_url = "https://huggingface.co/datasets/allenai/qasper"
+source = ["https://huggingface.co/datasets/allenai/qasper"]
+revision = ["fdc9d8214fbab5dd782958601db4d678e6934a54"]
+grading = "Token F1 of a free answer; yes or no; not answerable"
+
+[[benchmarks]]
+id = "multihop-rag"
+benchmark = "MultiHop-RAG"
+component = "Open Library Answering"
+domain = "Questions on news articles of September to December 2023, answered from several of them"
+layout = "questions"
+availability = "Download"
+questions = 2556
+documents = 609
+released = "2024-01"
+licence = "ODC-By"
+licence_url = "https://huggingface.co/datasets/yixuantt/MultiHopRAG"
+source = ["https://huggingface.co/datasets/yixuantt/MultiHopRAG"]
+revision = ["71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82"]
+grading = "A short answer: yes or no, a name, before or after, or not enough information"
+
+[[benchmarks]]
+id = "nfcorpus"
+benchmark = "NFCorpus"
+component = "Embedding, Reranking"
+domain = "Questions on nutrition and medicine, and the medical articles relevant to them"
+layout = "retrieval"
+availability = "Download"
+questions = 323
+documents = 3633
+released = "2016"
+licence = "Academic use only"
+licence_url = "https://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/"
+source = ["https://huggingface.co/datasets/BeIR/nfcorpus"]
+revision = ["b5026a0e96e8a7ac4f95f482a596389289d46269"]
+grading = "nDCG@10 of the documents found, against the relevance labels"
+
+[[benchmarks]]
+id = "fiqa"
+benchmark = "FiQA-2018"
+component = "Embedding, Reranking"
+domain = "Financial questions, and the answers of StackExchange, Reddit and StockTwits relevant to them"
+layout = "retrieval"
+availability = "Download"
+questions = 648
+documents = 57638
+released = "2018"
+licence = "Non-commercial use only"
+licence_url = "https://sites.google.com/view/fiqa/"
+source = ["https://huggingface.co/datasets/BeIR/fiqa"]
+revision = ["979c07a7cb5ccc6ca009792241fa1250b98055dd"]
+grading = "nDCG@10 of the documents found, against the relevance labels"
+
+[[benchmarks]]
+id = "trec-covid"
+benchmark = "TREC-COVID"
+component = "Embedding, Reranking"
+domain = "Questions on COVID-19, and the articles of its literature relevant to them"
+layout = "retrieval"
+availability = "Download"
+questions = 50
+documents = 171332
+released = "2020-05"
+licence = "Not stated at its source"
+licence_url = "https://huggingface.co/datasets/BeIR/trec-covid"
+source = ["https://huggingface.co/datasets/BeIR/trec-covid"]
+revision = ["7e16fde3016c639c7f856e803f4bab92645562c4"]
+grading = "nDCG@10 of the documents found, against the relevance labels"
+
+[[benchmarks]]
+id = "crag"
+benchmark = "CRAG"
+component = "Open Library Answering"
+domain = "Questions of several domains, finance among them, each with five web pages"
+layout = "questions"
+availability = "Download"
+released = "2024-06"
+licence = "CC BY-NC 4.0"
+licence_url = "https://github.com/facebookresearch/CRAG/blob/main/LICENSE"
+source = ["https://github.com/facebookresearch/CRAG"]
+revision = ["ad1518887dd4d9ebcd7de95388c7a62751e7705c"]
+grading = "Accurate, missing or hallucinated, as a judge model rates the answer"
+
+[[benchmarks]]
+id = "financebench"
+benchmark = "FinanceBench"
+component = "Open Library Answering"
+domain = "Questions on the filings of public companies, answered from the whole filing"
+layout = "questions"
+availability = "Download"
+questions = 150
+released = "2023-11"
+licence = "CC BY-NC 4.0"
+licence_url = "https://huggingface.co/datasets/PatronusAI/financebench"
+source = ["https://huggingface.co/datasets/PatronusAI/financebench"]
+revision = ["e04404e3a97f69f79c14d42f24981a1c9c3bcd18"]
+grading = "A free answer, graded by people in its paper"
+
+[[benchmarks]]
+id = "natural-questions"
+benchmark = "Natural Questions"
+component = "Open Library Answering"
+domain = "Questions people asked Google, answered from Wikipedia"
+layout = "questions"
+availability = "Download"
+questions = 7830
+released = "2019"
+licence = "CC BY-SA 3.0"
+licence_url = "https://huggingface.co/datasets/google-research-datasets/natural_questions"
+source = ["https://huggingface.co/datasets/google-research-datasets/natural_questions"]
+revision = ["e8103d566bef4154c2c12b17c6095ec5275840cc"]
+grading = "Exact match of the short answers"
