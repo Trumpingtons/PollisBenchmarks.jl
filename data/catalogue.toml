@@ -257,6 +257,7 @@ licence_url = "https://huggingface.co/datasets/allenai/ai2_arc"
 source = ["https://huggingface.co/datasets/allenai/ai2_arc"]
 revision = ["210d026faf9955653af8916fad021475a3f00453"]
 grading = "The letter of the option chosen, among four"
+reference = "CCEKS...2018a"
 
 [[benchmarks]]
 id = "gpqa"
@@ -273,6 +274,7 @@ licence_url = "https://huggingface.co/datasets/Idavidrein/gpqa"
 source = ["https://huggingface.co/datasets/Idavidrein/gpqa"]
 revision = ["83022cefff930aea54f654c0b282e74b9eeda5c6"]
 grading = "The letter of the option chosen, among four"
+reference = "RHSPP...2024a"
 
 [[benchmarks]]
 id = "spider"
@@ -289,6 +291,7 @@ licence_url = "https://huggingface.co/datasets/xlangai/spider"
 source = ["https://huggingface.co/datasets/xlangai/spider"]
 revision = ["0c350918f3f29ec754f1181c65cdce76cd6c133c"]
 grading = "The results of the SQL query, compared with those of the right one"
+reference = "YZYYW...2018a"
 
 [[benchmarks]]
 id = "squad_v2"
@@ -305,6 +308,7 @@ licence_url = "https://huggingface.co/datasets/rajpurkar/squad_v2"
 source = ["https://huggingface.co/datasets/rajpurkar/squad_v2"]
 revision = ["3ffb306f725f7d2ce8394bc1873b24868140c412"]
 grading = "Exact match and token F1 of the answer; no answer for a question not answerable"
+reference = "RJL2018a"
 
 [[benchmarks]]
 id = "hotpotqa"
@@ -321,6 +325,7 @@ licence_url = "https://huggingface.co/datasets/hotpotqa/hotpot_qa"
 source = ["https://huggingface.co/datasets/hotpotqa/hotpot_qa"]
 revision = ["1908d6afbbead072334abe2965f91bd2709910ab"]
 grading = "Exact match and token F1 of the answer"
+reference = "YQZBC...2018a"
 
 [[benchmarks]]
 id = "qasper"
@@ -336,6 +341,7 @@ licence_url = "https://huggingface.co/datasets/allenai/qasper"
 source = ["https://huggingface.co/datasets/allenai/qasper"]
 revision = ["fdc9d8214fbab5dd782958601db4d678e6934a54"]
 grading = "Token F1 of a free answer; yes or no; not answerable"
+reference = "DLBCS...2021a"
 
 [[benchmarks]]
 id = "multihop_rag"
@@ -353,6 +359,7 @@ licence_url = "https://huggingface.co/datasets/yixuantt/MultiHopRAG"
 source = ["https://huggingface.co/datasets/yixuantt/MultiHopRAG"]
 revision = ["71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82"]
 grading = "A short answer: yes or no, a name, before or after, or not enough information"
+reference = "TY2024a"
 
 [[benchmarks]]
 id = "nfcorpus"
@@ -370,6 +377,7 @@ licence_url = "https://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/"
 source = ["https://huggingface.co/datasets/BeIR/nfcorpus"]
 revision = ["b5026a0e96e8a7ac4f95f482a596389289d46269"]
 grading = "nDCG@10 of the documents found, against the relevance labels"
+reference = "BGSR2016a"
 
 [[benchmarks]]
 id = "fiqa"
@@ -387,6 +395,7 @@ licence_url = "https://sites.google.com/view/fiqa/"
 source = ["https://huggingface.co/datasets/BeIR/fiqa"]
 revision = ["979c07a7cb5ccc6ca009792241fa1250b98055dd"]
 grading = "nDCG@10 of the documents found, against the relevance labels"
+reference = "MHFDM...2018a"
 
 [[benchmarks]]
 id = "trec_covid"
@@ -404,6 +413,7 @@ licence_url = "https://huggingface.co/datasets/BeIR/trec-covid"
 source = ["https://huggingface.co/datasets/BeIR/trec-covid"]
 revision = ["7e16fde3016c639c7f856e803f4bab92645562c4"]
 grading = "nDCG@10 of the documents found, against the relevance labels"
+reference = "VABDH...2020a"
 
 [[benchmarks]]
 id = "crag"
@@ -419,6 +429,7 @@ licence_url = "https://github.com/facebookresearch/CRAG/blob/main/LICENSE"
 source = ["https://github.com/facebookresearch/CRAG"]
 revision = ["ad1518887dd4d9ebcd7de95388c7a62751e7705c"]
 grading = "Accurate, missing or hallucinated, as a judge model rates the answer"
+reference = "YSXSB...2024a"
 
 [[benchmarks]]
 id = "financebench"
@@ -435,6 +446,7 @@ licence_url = "https://huggingface.co/datasets/PatronusAI/financebench"
 source = ["https://huggingface.co/datasets/PatronusAI/financebench"]
 revision = ["e04404e3a97f69f79c14d42f24981a1c9c3bcd18"]
 grading = "A free answer, graded by people in its paper"
+reference = "IKKQS...2023a"
 
 [[benchmarks]]
 id = "natural_questions"
@@ -451,3 +463,4 @@ licence_url = "https://huggingface.co/datasets/google-research-datasets/natural_
 source = ["https://huggingface.co/datasets/google-research-datasets/natural_questions"]
 revision = ["e8103d566bef4154c2c12b17c6095ec5275840cc"]
 grading = "Exact match of the short answers"
+reference = "KPRCP...2019a"
