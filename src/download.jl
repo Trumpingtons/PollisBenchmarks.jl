@@ -32,19 +32,14 @@ function downloaded_revision(id)
 end
 
 """
-	download(benchmark; progress = (done, total) -> nothing)
+	source_questions(benchmark, folder; progress = (done, total) -> nothing)
 
-Downloads the questions and examples of `benchmark` ("mmlu-pro", "gsm8k") into `DATA/<benchmark>`, once, at the
-revision of the dataset that PollisBenchmarks fixes, and answers its `info`: the revision and the number of questions
-of each stratum. Files of another revision are downloaded again.
+The questions and examples of `benchmark` from its source, at the revision of the catalogue: its Parquet files
+downloaded into `folder`, unless they are there already, and each row read as kept, (; id, stratum, question,
+choices, answer, worked).
 """
-function download(id; progress = (done, total) -> nothing)
+function source_questions(id, folder; progress = (done, total) -> nothing)
 	benchmark = benchmark_of(id)
-	folder = joinpath(DATA, benchmark.id)
-	if downloaded_revision(benchmark.id) != benchmark.revision
-		rm(joinpath(folder, "questions.parquet"); force = true)
-		rm(joinpath(folder, "examples.parquet"); force = true)
-	end
 	progress(0, 3)
 	questions_file = fetch_file(benchmark.questions, joinpath(folder, "questions.parquet"))
 	progress(1, 3)
@@ -52,6 +47,32 @@ function download(id; progress = (done, total) -> nothing)
 	progress(2, 3)
 	questions = [benchmark.read_row(row, index) for (index, row) in enumerate(parquet_rows(questions_file))]
 	examples = [benchmark.read_row(row, index) for (index, row) in enumerate(parquet_rows(examples_file))]
+	(; questions, examples)
+end
+
+"""
+	download(benchmark; progress = (done, total) -> nothing)
+
+Makes the questions and examples of `benchmark` ("mmlu-pro", "gsm8k") ready in `DATA/<benchmark>`, at the revision
+of the dataset that the catalogue fixes, and answers its `info`: the revision and the number of questions of each
+stratum. A benchmark built in is read from the artifact of the package; any other is downloaded from its source,
+once, and again when its files are of another revision.
+"""
+function download(id; progress = (done, total) -> nothing)
+	benchmark = benchmark_of(id)
+	folder = joinpath(DATA, benchmark.id)
+	artifact = built_in(benchmark.id) ? artifact_folder() : nothing
+	if artifact !== nothing
+		progress(0, 3)
+		questions = [question_of(row) for row in parquet_rows(joinpath(artifact, "$(benchmark.id).parquet"))]
+		examples = [question_of(row) for row in parquet_rows(joinpath(artifact, "$(benchmark.id)-examples.parquet"))]
+	else
+		if downloaded_revision(benchmark.id) != benchmark.revision
+			rm(joinpath(folder, "questions.parquet"); force = true)
+			rm(joinpath(folder, "examples.parquet"); force = true)
+		end
+		(; questions, examples) = source_questions(benchmark.id, folder; progress)
+	end
 	write_lines(joinpath(folder, "questions.jsonl"), questions)
 	write_lines(joinpath(folder, "examples.jsonl"), examples)
 	counts = Dict{String, Int}()

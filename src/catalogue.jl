@@ -34,3 +34,43 @@ register!(benchmark::Benchmark) = (BENCHMARKS[benchmark.id] = benchmark)
 benchmark_of(id) = get(BENCHMARKS, String(id)) do
 	error("No benchmark $(id): PollisBenchmarks has $(join(sort(collect(keys(BENCHMARKS))), ", ")).")
 end
+
+"""The catalogue of the benchmarks, `data/catalogue.toml`: its source, licence, revision and whether it is built in."""
+const CATALOGUE_FILE = joinpath(dirname(@__DIR__), "data", "catalogue.toml")
+include_dependency(CATALOGUE_FILE)
+const CATALOGUE = Dict(entry["id"] => entry for entry in TOML.parsefile(CATALOGUE_FILE)["benchmarks"])
+
+"""
+	catalogue()
+
+The entries of the catalogue, one per benchmark: id, benchmark, component, domain, questions, released, licence,
+licence_url, availability (Built In or Download), source, revision, grading, page, reference and, for one built in,
+table, the name of its table in Pollis's database PollisBenchmarks.
+"""
+catalogue() = [CATALOGUE[id] for id in sort(collect(keys(CATALOGUE)))]
+
+"""The entry of the catalogue of the benchmark `id`."""
+catalogue_entry(id) = get(CATALOGUE, String(id)) do
+	error("No benchmark $(id) in the catalogue of PollisBenchmarks.")
+end
+
+"""The revision of the source of the benchmark `id` that its questions come from."""
+revision_of(id) = String(catalogue_entry(id)["revision"])
+
+"""Whether the questions of the benchmark `id` come with the package, in its artifact, rather than from its source."""
+built_in(id) = catalogue_entry(id)["availability"] == "Built In"
+
+"""The Artifacts.toml of the package, which names the artifact `benchmarks`, the questions of the benchmarks built in."""
+const ARTIFACTS_FILE = joinpath(dirname(@__DIR__), "Artifacts.toml")
+
+"""
+The folder of the artifact `benchmarks`, which Pkg downloads with the package: `<id>.parquet`, the questions of each
+benchmark built in, and `<id>-examples.parquet`, its examples. Nothing when the artifact is not on this computer.
+"""
+function artifact_folder()
+	isfile(ARTIFACTS_FILE) || return nothing
+	hash = artifact_hash("benchmarks", ARTIFACTS_FILE)
+	hash === nothing && return nothing
+	folder = artifact_path(hash)
+	isdir(folder) ? folder : nothing
+end

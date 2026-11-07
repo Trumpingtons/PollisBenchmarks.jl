@@ -17,12 +17,12 @@ PB.figures(run)
 
 ## Benchmarks
 
-| Id | Benchmark | Questions | Strata | Grading |
-|---|---|---|---|---|
-| `mmlu-pro` | MMLU-Pro (Wang et al., 2024) | 12,032 | 14 subjects | The letter of the option, read as its evaluation scripts read it |
-| `gsm8k` | GSM8K (Cobbe et al., 2021) | 1,319 | None | The final number |
+| Id | Benchmark | Questions | Strata | Grading | Licence | |
+|---|---|---|---|---|---|---|
+| `mmlu-pro` | MMLU-Pro (Wang et al., 2024) | 12,032 | 14 subjects | The letter of the option, read as its evaluation scripts read it | MIT | Built in |
+| `gsm8k` | GSM8K (Cobbe et al., 2021) | 1,319 | None | The final number | MIT | Built in |
 
-Each benchmark is downloaded from Hugging Face into `~/.pollis/benchmarks/data/<id>`, at the revision fixed in its file under `src/benchmarks`, so that a later download gives the same questions. Its questions keep the licence of their source.
+`data/catalogue.toml` describes each benchmark: what it measures, its source and the revision its questions come from, its licence, how an answer is graded, and whether it is built in. The questions of a benchmark built in come with the package, in its artifact `benchmarks` (one Parquet file of questions and one of examples each, with `LICENCES.md`), made from its source at that revision; Pollis copies them into its built-in database PollisBenchmarks. Any other benchmark is downloaded from its source the first time it is run, at the same fixed revision. `download(id)` makes the questions ready in `~/.pollis/benchmarks/data/<id>` either way. Each benchmark's questions keep the licence of their source.
 
 ## Runs
 

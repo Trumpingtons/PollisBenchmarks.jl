@@ -61,5 +61,18 @@ const PB = PollisBenchmarks
 	@testset "Catalogue" begin
 		@test sort(collect(keys(PB.BENCHMARKS))) == ["gsm8k", "mmlu-pro"]
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
+		# Every benchmark has its entry, and every entry its benchmark, of the same revision
+		@test sort([entry["id"] for entry in PB.catalogue()]) == sort(collect(keys(PB.BENCHMARKS)))
+		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)
+		@test [(entry["id"], entry["availability"], get(entry, "table", nothing)) for entry in PB.catalogue()] ==
+			[("gsm8k", "Built In", "gsm8k"), ("mmlu-pro", "Built In", "mmlu_pro")]
+	end
+
+	@testset "Artifact" begin
+		folder = PB.artifact_folder()
+		@test folder !== nothing
+		# As many questions as the catalogue says, as published: 1,319 for GSM8K, 12,032 for MMLU-Pro
+		@test [length(PB.parquet_rows(joinpath(folder, "$(id).parquet"))) for id in ["gsm8k", "mmlu-pro"]] == [1319, 12032]
+		@test isfile(joinpath(folder, "LICENCES.md"))
 	end
 end

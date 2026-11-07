@@ -38,8 +38,8 @@ function mmlu_pro_extract(text)
 	found === nothing ? nothing : String(found.captures[1])
 end
 
-"""The revision of TIGER-Lab/MMLU-Pro on Hugging Face, fixed so that the questions do not change when the dataset is updated."""
-const MMLU_PRO_REVISION = "b189ec765aa7ed75c8acfea42df31fdae71f97be"
+"""The revision of TIGER-Lab/MMLU-Pro on Hugging Face, fixed in the catalogue so that the questions do not change when the dataset is updated."""
+const MMLU_PRO_REVISION = revision_of("mmlu-pro")
 
 register!(Benchmark(
 	"mmlu-pro", "MMLU-Pro", MMLU_PRO_REVISION,

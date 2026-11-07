@@ -1,0 +1,38 @@
+# The benchmarks of PollisBenchmarks.jl: one entry each, which Pollis copies into the table `catalogue` of its
+# built-in database PollisBenchmarks. A benchmark Built In has its questions in the artifact `benchmarks`, as
+# `<id>.parquet` and `<id>-examples.parquet`, copied into the tables `<table>` and `<table>_examples`; one to
+# Download is fetched from its source at `revision` the first time it is run.
+
+[[benchmarks]]
+id = "mmlu-pro"
+table = "mmlu_pro"
+benchmark = "MMLU-Pro"
+component = "Closed Book Answering"
+domain = "14 subjects, from law and economics to physics"
+questions = 12032
+released = "2024-06"
+licence = "MIT"
+licence_url = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"
+availability = "Built In"
+source = "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"
+revision = "b189ec765aa7ed75c8acfea42df31fdae71f97be"
+grading = "The letter of the option chosen, among up to ten"
+page = "Model Benchmarks"
+reference = "WMZNC...2024a"
+
+[[benchmarks]]
+id = "gsm8k"
+table = "gsm8k"
+benchmark = "GSM8K"
+component = "Closed Book Answering"
+domain = "Grade-school mathematics word problems"
+questions = 1319
+released = "2021-10"
+licence = "MIT"
+licence_url = "https://huggingface.co/datasets/openai/gsm8k"
+availability = "Built In"
+source = "https://huggingface.co/datasets/openai/gsm8k"
+revision = "740312add88f781978c0658806c59bc2815b9866"
+grading = "The final number"
+page = "Model Benchmarks"
+reference = "CKBCJ...2021a"

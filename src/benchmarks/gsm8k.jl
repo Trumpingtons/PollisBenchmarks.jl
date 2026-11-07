@@ -40,8 +40,8 @@ function gsm8k_grade(extracted, answer)
 	given !== nothing && right !== nothing && abs(given - right) <= 1e-6 * max(1, abs(right))
 end
 
-"""The revision of openai/gsm8k on Hugging Face, fixed so that the questions do not change when the dataset is updated."""
-const GSM8K_REVISION = "740312add88f781978c0658806c59bc2815b9866"
+"""The revision of openai/gsm8k on Hugging Face, fixed in the catalogue so that the questions do not change when the dataset is updated."""
+const GSM8K_REVISION = revision_of("gsm8k")
 
 register!(Benchmark(
 	"gsm8k", "GSM8K", GSM8K_REVISION,

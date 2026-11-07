@@ -27,6 +27,8 @@ module PollisBenchmarks
 import DBInterface
 import Downloads
 import DuckDB
+import TOML
+using Artifacts: artifact_hash, artifact_path
 using Dates: now, UTC
 using JSON3
 using Random: Xoshiro, shuffle
