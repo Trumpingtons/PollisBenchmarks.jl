@@ -28,6 +28,26 @@ const PB = PollisBenchmarks
 		@test PB.gsm8k_row(row, 7) == (; id = "7", stratum = "", question = "How many eggs?", choices = String[], answer = "13", worked = "She has 16 - 3 = 13 eggs.")
 	end
 
+	@testset "ARC-Challenge questions" begin
+		# Labels 1 to 4 in the source, answer 3: the third option, C
+		row = (; id = "Q1", question = "Which is a gas?", choices = (; text = ["rock", "water", "air", "wood"], label = ["1", "2", "3", "4"]), answerKey = "3")
+		@test PB.arc_challenge_row(row) == (; id = "Q1", stratum = "", question = "Which is a gas?", choices = ["rock", "water", "air", "wood"], answer = "C", worked = "")
+		# Five options: a letter up to E is read
+		@test [PB.BENCHMARKS["arc_challenge"].extract(text) for text in ["the answer is (E)", "Answer: B", "none"]] == ["E", "B", nothing]
+	end
+
+	@testset "GPQA questions" begin
+		row = (; Question = " Which? ", var"Correct Answer" = "right", var"Incorrect Answer 1" = "w1", var"Incorrect Answer 2" = "w2",
+			var"Incorrect Answer 3" = "w3", var"Record ID" = "recAAA111", var"High-level domain" = "Physics")
+		# The codeunits of "recAAA111" add up to 656: the right answer goes 1 + mod(655, 4) = 4th, letter D
+		@test PB.place_true_option(PB.gpqa_row(row, 1)) == (; id = "recAAA111", stratum = "Physics", question = "Which?",
+			choices = ["w1", "w2", "w3", "right"], answer = "D", worked = "")
+		# Without a record id, the row's number: 2 goes 1 + mod(1, 4) = 2nd, letter B
+		@test PB.place_true_option(PB.gpqa_row((; row..., var"Record ID" = nothing), 2)).answer == "B"
+		# Four options: E is not a letter of GPQA
+		@test [PB.BENCHMARKS["gpqa"].extract(text) for text in ["the answer is (D)", "the answer is (E)"]] == ["D", nothing]
+	end
+
 	@testset "Allocation of a sample" begin
 		# One each, then 7 left shared equally: 2⅓ each, the extra one to the first stratum
 		@test PB.allocate(10, [5, 5, 5], "equal") == [4, 3, 3]
@@ -59,7 +79,7 @@ const PB = PollisBenchmarks
 	end
 
 	@testset "Catalogue" begin
-		@test sort(collect(keys(PB.BENCHMARKS))) == ["bbh", "finqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "truthfulqa"]
+		@test sort(collect(keys(PB.BENCHMARKS))) == ["arc_challenge", "bbh", "finqa", "gpqa", "gsm8k", "ifeval", "mmlu_pro", "multipl_e_julia", "pubmedqa", "truthfulqa"]
 		@test_throws ErrorException PB.benchmark_of("no-such-benchmark")
 		# Every benchmark that runs has its entry, of the same revision
 		@test all(PB.revision_of(id) == benchmark.revision for (id, benchmark) in PB.BENCHMARKS)

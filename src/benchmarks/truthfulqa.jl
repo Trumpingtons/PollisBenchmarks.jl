@@ -3,8 +3,11 @@
 # the questions are made ready, it is moved to a place fixed by the question's id, the others kept in their order, so
 # that the right letter is not always A, and the same for every run.
 
-"""The question with its true option at the place its id fixes, among up to thirteen."""
-function truthfulqa_arrange(question)
+"""
+The question with its true option at the place its id fixes, the other options kept in their order: the same place on
+every computer and every run, and not always the same letter.
+"""
+function place_true_option(question)
 	choices = copy(question.choices)
 	right = findfirst(==(only(question.answer)), LETTERS)
 	true_option = popat!(choices, right)
@@ -14,7 +17,8 @@ function truthfulqa_arrange(question)
 	(; question..., choices, answer = string(LETTERS[place]))
 end
 
-function truthfulqa_prompt(question, examples, settings)
+"""The prompt for a question of one true option among several, asked and read as those of MMLU-Pro, without examples."""
+function single_choice_prompt(question, examples, settings)
 	if settings.reasoning
 		return "The following is a multiple choice question. Think step by step and then finish your answer with \"the answer is (X)\" where X is the correct letter choice.\n\n\n" * mmlu_pro_question(question)
 	end
@@ -25,10 +29,10 @@ end
 register!(Benchmark(
 	"truthfulqa", "TruthfulQA", revision_of("truthfulqa"),
 	nothing, nothing, nothing, nothing,
-	truthfulqa_prompt,
+	single_choice_prompt,
 	text -> choice_extract(text, LETTERS[13]),
 	(extracted, question) -> extracted == question.answer,
 	(examples, question, shots) -> [],
 	question -> 1 / length(question.choices),
-	truthfulqa_arrange,
+	place_true_option,
 ))

@@ -236,13 +236,14 @@ domain = "Grade-school science questions, those that simple methods fail on"
 layout = "questions"
 availability = "Download"
 questions = 1172
-size_mb = 0.4
+size_mb = 0.2
 released = "2018-03"
 licence = "CC BY-SA 4.0"
 licence_url = "https://huggingface.co/datasets/allenai/ai2_arc"
 source = ["https://huggingface.co/datasets/allenai/ai2_arc"]
 revision = ["210d026faf9955653af8916fad021475a3f00453"]
-grading = "The letter of the option chosen, among four"
+grading = "The letter of the option chosen, among three to five"
+page = "Benchmark Answering Models"
 reference = "CCEKS...2018a"
 
 [[benchmarks]]
@@ -253,13 +254,14 @@ domain = "Graduate-level questions in biology, physics and chemistry, written by
 layout = "questions"
 availability = "Download"
 questions = 448
-size_mb = 8.7
+size_mb = 3.2
 released = "2023-11"
 licence = "CC BY 4.0"
 licence_url = "https://huggingface.co/datasets/Idavidrein/gpqa"
 source = ["https://huggingface.co/datasets/Idavidrein/gpqa"]
 revision = ["83022cefff930aea54f654c0b282e74b9eeda5c6"]
 grading = "The letter of the option chosen, among four"
+page = "Benchmark Answering Models"
 reference = "RHSPP...2024a"
 
 [[benchmarks]]
